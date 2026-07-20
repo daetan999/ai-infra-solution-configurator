@@ -3,7 +3,13 @@ from __future__ import annotations
 from copy import deepcopy
 
 from app.domain import ARCHITECTURE_LAYERS, Rule
-from app.rules import RULES, matching_rules, normalize_requirements, resolve_rule_conflicts
+from app.rules import (
+    RULES,
+    matching_rules,
+    normalize_requirements,
+    resolve_rule_conflicts,
+    ruleset_digest,
+)
 
 
 def complete_requirements() -> dict[str, object]:
@@ -107,6 +113,10 @@ def test_ruleset_identifiers_are_unique() -> None:
     identifiers = [rule.rule_id for rule in RULES]
 
     assert len(identifiers) == len(set(identifiers))
+
+
+def test_ruleset_digest_is_independent_of_declaration_order() -> None:
+    assert ruleset_digest(RULES) == ruleset_digest(tuple(reversed(RULES)))
 
 
 def test_absent_existing_platform_evidence_does_not_trigger_reuse_rules() -> None:
