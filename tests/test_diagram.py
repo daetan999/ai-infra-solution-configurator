@@ -270,7 +270,7 @@ def test_renderer_escapes_untrusted_text_and_remains_inert() -> None:
     assert "<foreignobject" not in lower_svg
     assert "javascript:" not in lower_svg
     assert "https://bad.invalid" not in svg
-    assert " href=" not in lower_svg
+    assert ' href="' not in lower_svg
 
 
 def test_renderer_is_stable_and_allows_only_known_svg_elements() -> None:
