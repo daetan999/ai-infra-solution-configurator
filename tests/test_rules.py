@@ -107,3 +107,32 @@ def test_ruleset_identifiers_are_unique() -> None:
     identifiers = [rule.rule_id for rule in RULES]
 
     assert len(identifiers) == len(set(identifiers))
+
+
+def test_absent_existing_platform_evidence_does_not_trigger_reuse_rules() -> None:
+    matches = matching_rules({"workload_type": "batch_inference"})
+    identifiers = {rule.rule_id for rule in matches}
+
+    assert "ORCHESTRATION-K8S" not in identifiers
+    assert "DATA-EXISTING" not in identifiers
+    assert "IDENTITY-CLOUD" not in identifiers
+
+
+def test_combined_lifecycle_triggers_training_rules() -> None:
+    matches = matching_rules({"workload_type": "model_training", "lifecycle_mode": "both"})
+
+    assert "COMPUTE-TRAINING" in {rule.rule_id for rule in matches}
+
+
+def test_neutral_placement_values_do_not_trigger_cloud_or_on_premises_rules() -> None:
+    matches = matching_rules(
+        {
+            "workload_type": "feature_platform",
+            "cloud_preference": "cloud_agnostic",
+            "on_premises_preference": "neutral",
+        }
+    )
+    identifiers = {rule.rule_id for rule in matches}
+
+    assert "DEPLOY-CLOUD" not in identifiers
+    assert "DEPLOY-ONPREM" not in identifiers
