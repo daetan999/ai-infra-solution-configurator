@@ -81,7 +81,17 @@ function asText(value, fallback = "Not provided") {
     return value.map((item) => asText(item, "")).filter(Boolean).join(", ") || fallback;
   }
   if (typeof value === "object") {
-    return asText(value.title || value.name || value.component_or_pattern, fallback);
+    return asText(
+      value.title
+        || value.name
+        || value.component_or_pattern
+        || value.risk
+        || value.consideration
+        || value.required_validation
+        || value.impact
+        || value.objective,
+      fallback,
+    );
   }
   return String(value);
 }

@@ -76,6 +76,8 @@ def test_client_uses_scenario_endpoints_without_mock_recommendations_or_unsafe_h
     assert "/export?format=" in script
     assert "AbortController" in script
     assert "textContent" in script
+    assert "value.risk" in script
+    assert "value.required_validation" in script
     assert "innerHTML" not in script
     assert "mock" not in script.lower()
 
