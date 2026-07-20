@@ -526,7 +526,7 @@ def _always(_: Mapping[str, Any]) -> bool:
 
 
 def _training(requirements: Mapping[str, Any]) -> bool:
-    return "training" in _text(requirements, "lifecycle_mode")
+    return _text(requirements, "lifecycle_mode") in {"both", "training"}
 
 
 def _rag(requirements: Mapping[str, Any]) -> bool:
@@ -605,13 +605,17 @@ def _budget_sensitive(requirements: Mapping[str, Any]) -> bool:
     return _text(requirements, "budget_sensitivity") in {"high", "very_high", "strict"}
 
 
+def _configured_enum(requirements: Mapping[str, Any], field: str) -> bool:
+    return _text(requirements, field) not in {"", "none"}
+
+
 CONDITION_MATCHERS: dict[str, Callable[[Mapping[str, Any]], bool]] = {
     "always": _always,
     "budget_sensitive": _budget_sensitive,
     "cloud_preferred": _cloud_preferred,
-    "existing_cloud": lambda values: _text(values, "existing_cloud") != "none",
-    "existing_data_platform": lambda values: _text(values, "existing_data_platform") != "none",
-    "existing_kubernetes": lambda values: _text(values, "existing_kubernetes") != "none",
+    "existing_cloud": lambda values: _configured_enum(values, "existing_cloud"),
+    "existing_data_platform": lambda values: _configured_enum(values, "existing_data_platform"),
+    "existing_kubernetes": lambda values: _configured_enum(values, "existing_kubernetes"),
     "high_availability": _high_availability,
     "high_throughput": _high_throughput,
     "hybrid_required": lambda values: _truthy(values, "hybrid_requirement"),
