@@ -117,6 +117,44 @@ def test_builder_adapts_hybrid_sensitive_assessment_without_engine_imports() -> 
     assert "retrieval" not in {node.id for node in blueprint.nodes}
 
 
+def test_builder_prefers_engine_architecture_components_when_available() -> None:
+    assessment = {
+        "scenario_name": "Fictional Governed Platform",
+        "requirements": {"workload_type": "rag", "deployment_pattern": "hybrid"},
+        "deployment_pattern": "hybrid",
+        "architecture": {
+            "accelerator_approach": {
+                "component_or_pattern": "Partitioned accelerator pools",
+                "rule_id": "ACC-004",
+                "priority": "high",
+            },
+            "feature_or_retrieval_layer": {
+                "component_or_pattern": "Policy-filtered retrieval service",
+                "rule_id": "RET-002",
+                "priority": "high",
+            },
+            "identity": {
+                "component_or_pattern": "Federated workload identity",
+                "rule_id": "IAM-001",
+                "priority": "high",
+            },
+        },
+        "recommendations": [
+            {
+                "layer": "compute_layer",
+                "recommended_component_or_pattern": "Lower-priority trace fallback",
+            }
+        ],
+    }
+
+    blueprint = build_blueprint(assessment)
+
+    labels = {node.id: node.label for node in blueprint.nodes}
+    assert labels["gpu-compute"] == "Partitioned accelerator pools"
+    assert labels["retrieval"] == "Policy-filtered retrieval service"
+    assert labels["security"] == "Federated workload identity"
+
+
 def test_unknown_trace_layers_cannot_add_arbitrary_nodes() -> None:
     assessment = {
         **PRIVATE_RAG_ASSESSMENT,
