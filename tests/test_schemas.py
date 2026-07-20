@@ -89,6 +89,17 @@ def test_rejects_unknown_fields_and_non_fictional_scenarios() -> None:
 
 @pytest.mark.parametrize(
     ("field", "value"),
+    [("name", " a "), ("description", "          brief          ")],
+)
+def test_rejects_text_that_falls_below_bounds_after_normalization(
+    field: str, value: str
+) -> None:
+    with pytest.raises(ValidationError):
+        ScenarioCreate.model_validate({**valid_payload(), field: value})
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
     [
         ("model_size_billion", 0),
         ("latency_target_ms", 0),

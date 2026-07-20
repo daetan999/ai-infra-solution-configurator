@@ -44,6 +44,12 @@ def test_real_rules_to_blueprint_to_export_workflow(tmp_path) -> None:
         '<svg xmlns="http://www.w3.org/2000/svg"><a href="https://evil.example">x</a></svg>',
         '<svg xmlns="http://www.w3.org/2000/svg"><rect onload="alert(1)" /></svg>',
         '<svg xmlns="http://www.w3.org/2000/svg"><style>rect{fill:url(https://evil)}</style></svg>',
+        '<svg xmlns="http://www.w3.org/2000/svg"><style>@import "https://evil";</style></svg>',
+        '<svg xmlns="http://www.w3.org/2000/svg"><rect fill="url(https://evil)" /></svg>',
+        (
+            '<svg xmlns="http://www.w3.org/2000/svg">'
+            '<set attributeName="href" to="https://evil" /></svg>'
+        ),
     ],
 )
 def test_svg_export_blocks_active_or_external_content(svg: str) -> None:
