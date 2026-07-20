@@ -13,8 +13,10 @@ diagram, immutable persistence, and a downloadable solution brief without extern
 | Initial RED | `python3 -m pytest -q -o addopts='' tests/test_integration_workflow.py` before implementation | Intended `ModuleNotFoundError` for the absent workflow modules |
 | Structured-export RED | The real engine workflow test required risk/mitigation, PoC, and workshop sections | Failed because nested dictionaries were rendered as Python dictionary text |
 | SVG-contract RED | `/tmp/configurator-venv/bin/python -m pytest -q -o addopts='' tests/test_integration_workflow.py` | Real generated SVG failed because a blanket URL check rejected the required W3C namespace |
-| GREEN | `/tmp/configurator-venv/bin/python -m pytest -q -o addopts='' tests/test_integration_workflow.py` | `6 passed` after structural Markdown rendering and XML-aware SVG validation |
-| Integrated GREEN | `PYTHONWARNINGS=default /tmp/configurator-venv/bin/python -m pytest -q --disable-warnings` | `68 passed`, 90.06% branch-aware coverage, no SQLite resource warnings |
+| GREEN | `/tmp/configurator-venv/bin/python -m pytest -q -o addopts='' tests/test_integration_workflow.py` | `9 passed` after structural Markdown rendering and XML-aware SVG validation |
+| SVG hardening RED | `bb9ac76 test: harden normalized inputs and SVG exports` | Reproduced CSS import, external paint URL, and declarative-animation vectors |
+| SVG hardening GREEN | `bad56fe fix: enforce normalized bounds and inert SVG exports` | Allowed only inert elements, fragment-local URL references, and passive attributes |
+| Integrated GREEN | `PYTHONWARNINGS=default /tmp/configurator-venv/bin/python -m pytest -q --disable-warnings` | `73 passed`, 90.34% branch-aware coverage, no SQLite resource warnings |
 
 ## Test specification
 

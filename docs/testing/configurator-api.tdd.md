@@ -17,8 +17,10 @@ The journeys were derived from the Enterprise AI Solution Configurator portfolio
 |---|---|---|
 | RED | `python3 -m pytest -q -o addopts='' tests/test_schemas.py tests/test_repository.py tests/test_api.py tests/test_demo_data.py tests/test_integration_workflow.py` | Five intended collection failures because the contracted modules did not exist |
 | RED commit | `d2d8986 test: define configurator API workflow contracts` | Failing schema, repository, API, demo, and integrated-workflow contracts preserved before implementation |
-| GREEN | `/tmp/configurator-venv/bin/python -m pytest -q -o addopts='' tests/test_schemas.py tests/test_repository.py tests/test_api.py tests/test_demo_data.py tests/test_integration_workflow.py` | `32 passed` |
+| GREEN | `/tmp/configurator-venv/bin/python -m pytest -q -o addopts='' tests/test_schemas.py tests/test_repository.py tests/test_api.py tests/test_demo_data.py tests/test_integration_workflow.py` | `37 passed` |
 | GREEN commit | `8cb3ba5 feat: deliver validated configurator workflow API` | Validated workflow, immutable snapshots, exports, aliases, and safety controls implemented |
+| Hardening RED | `bb9ac76 test: harden normalized inputs and SVG exports` | Reproduced post-normalization bound bypasses and additional active SVG vectors |
+| Hardening GREEN | `bad56fe fix: enforce normalized bounds and inert SVG exports` | Visible-text bounds and structural SVG controls implemented |
 | Quality | `/tmp/configurator-venv/bin/ruff check app tests` | `All checks passed!` |
 
 ## Test specification
@@ -39,7 +41,7 @@ The journeys were derived from the Enterprise AI Solution Configurator portfolio
 ## Coverage and known gaps
 
 The integrated command `PYTHONWARNINGS=default /tmp/configurator-venv/bin/python -m pytest -q
---disable-warnings` completed with `68 passed` and **90.06% branch-aware coverage**. SQLite
+--disable-warnings` completed with `73 passed` and **90.34% branch-aware coverage**. SQLite
 connections were finalized cleanly; no resource warnings remained. Authentication and multi-user
 authorization are intentionally outside this local public-prototype API. The stored outputs are
 initial solution hypotheses, not approved production architectures.
