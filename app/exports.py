@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import html
 import json
+import re
 import xml.etree.ElementTree as element_tree
 from collections.abc import Mapping, Sequence
 
@@ -205,19 +206,36 @@ def validate_svg_export(svg: object) -> str:
 
     if local_name(root.tag) != "svg":
         raise ValueError("stored architecture is not SVG")
-    blocked_elements = {"script", "foreignobject", "iframe", "object", "embed", "image"}
+    blocked_elements = {
+        "script",
+        "style",
+        "foreignobject",
+        "iframe",
+        "object",
+        "embed",
+        "image",
+        "set",
+        "animate",
+        "animatemotion",
+        "animatetransform",
+        "discard",
+    }
     for element in root.iter():
         if local_name(element.tag) in blocked_elements:
-            raise ValueError("stored architecture SVG contains unsafe content")
-        if local_name(element.tag) == "style" and "url(" in (element.text or "").lower():
             raise ValueError("stored architecture SVG contains unsafe content")
         for attribute, value in element.attrib.items():
             attribute_name = local_name(attribute)
             normalized_value = value.strip().lower()
-            if attribute_name.startswith("on") or "javascript:" in normalized_value:
+            has_external_url = (
+                "url(" in normalized_value
+                and re.fullmatch(r"url\(#[a-z0-9_.:-]+\)", normalized_value) is None
+            )
+            if (
+                attribute_name.startswith("on")
+                or "javascript:" in normalized_value
+                or has_external_url
+            ):
                 raise ValueError("stored architecture SVG contains unsafe content")
             if attribute_name in {"href", "src"} and not normalized_value.startswith("#"):
-                raise ValueError("stored architecture SVG contains unsafe content")
-            if attribute_name == "style" and "url(" in normalized_value:
                 raise ValueError("stored architecture SVG contains unsafe content")
     return svg

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from typing import ClassVar, Literal, Self
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, ValidationInfo, field_validator, model_validator
 
 WorkloadType = Literal[
     "enterprise_rag",
@@ -99,10 +99,11 @@ class ScenarioCreate(BaseModel):
 
     @field_validator("name", "description")
     @classmethod
-    def strip_bounded_text(cls, value: str) -> str:
+    def strip_bounded_text(cls, value: str, info: ValidationInfo) -> str:
         normalized = " ".join(value.split())
-        if not normalized:
-            raise ValueError("text must not be blank")
+        minimum_length = 3 if info.field_name == "name" else 10
+        if len(normalized) < minimum_length:
+            raise ValueError(f"text must contain at least {minimum_length} visible characters")
         return normalized
 
     @field_validator("security_requirements")
