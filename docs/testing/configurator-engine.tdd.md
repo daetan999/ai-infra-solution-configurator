@@ -22,6 +22,8 @@ Configurator; no separate implementation plan was used.
 | GREEN: rules engine | `6616374` | `python -m pytest tests/test_rules.py tests/test_engine.py -q --no-cov` | `13 passed`; all initial contracts were satisfied. |
 | RED: enum edges | `b9a9875` | `python -m pytest tests/test_rules.py -q --no-cov` | Two intended failures reproduced absent platform evidence incorrectly triggering reuse rules and lifecycle `both` failing to trigger training rules. |
 | GREEN: enum edges | `30cc995` | `python -m pytest tests/test_rules.py tests/test_engine.py --cov=app.domain --cov=app.rules --cov=app.engine --cov-branch -q -o addopts=''` | `16 passed`; enum behavior fixed and branch-aware coverage remained above the gate. |
+| RED: review findings | `620c59a` | `python -m pytest tests/test_rules.py -q --no-cov` | Two intended failures reproduced the `emerging` maturity gap and an inaccurate priority-conflict explanation. |
+| GREEN: review findings | `bc20afd` | `python -m pytest tests/test_rules.py tests/test_engine.py --cov=app.domain --cov=app.rules --cov=app.engine --cov-branch -q -o addopts=''` | `18 passed`; API enum coverage and exact conflict explanations were restored. |
 
 Commands above used the isolated verification interpreter at
 `/tmp/capacity-planner-venv-2/bin/python`; the repository command is otherwise identical after
@@ -45,6 +47,7 @@ installing the `dev` dependency group.
 | 12 | Sparse evidence reduces confidence and creates explicit validation questions. | `tests/test_engine.py::test_sparse_evidence_lowers_confidence_and_creates_questions` | Boundary | PASS |
 | 13 | Complete evidence produces risks, migration steps, PoC criteria, and a next-workshop agenda. | `tests/test_engine.py::test_complete_evidence_produces_actionable_workshop_outputs` | Scenario | PASS |
 | 14 | The engine rejects non-mappings and never mutates a validated mapping. | `tests/test_engine.py::test_non_mapping_input_is_rejected`, `test_engine_does_not_mutate_validated_input` | Boundary | PASS |
+| 15 | Both API low-maturity observability values select the managed operating baseline, and conflict explanations name the decision path actually used. | `tests/test_rules.py::test_emerging_observability_triggers_managed_operating_baseline`, `test_conflict_resolution_uses_priority_then_rule_id` | Unit | PASS |
 
 ## Final verification
 
@@ -61,7 +64,7 @@ Observed:
 
 ```text
 All checks passed!
-17 passed
+18 passed
 app/domain.py 100%
 app/engine.py 90%
 app/rules.py 97%
@@ -76,4 +79,3 @@ TOTAL 94.02% branch-aware coverage
   review remain required.
 - The engine performs no external calls. Any optional wording enhancement must occur after the
   deterministic assessment and must not change rule decisions, calculations, or digests.
-
