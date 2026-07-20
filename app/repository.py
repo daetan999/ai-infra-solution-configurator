@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import sqlite3
 import threading
+import weakref
 from collections.abc import Callable, Mapping
 from dataclasses import asdict, is_dataclass
 from datetime import UTC, datetime
@@ -75,6 +76,7 @@ class ScenarioRepository:
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")
         self._connection = connection
+        self._connection_finalizer = weakref.finalize(self, connection.close)
         self._evaluator = evaluator
         self._blueprint_builder = blueprint_builder
         self._diagram_renderer = diagram_renderer
@@ -345,4 +347,4 @@ class ScenarioRepository:
 
     def close(self) -> None:
         with self._lock:
-            self._connection.close()
+            self._connection_finalizer()
