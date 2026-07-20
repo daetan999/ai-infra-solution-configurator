@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+from xml.etree import ElementTree
 
 import pytest
 
@@ -16,7 +17,7 @@ from app.architecture import (
     build_blueprint,
 )
 from app.diagram import render_architecture_svg, render_assessment_svg
-
+from app.engine import evaluate_configuration
 
 PRIVATE_RAG_ASSESSMENT = {
     "scenario_name": "Northstar Private Enterprise RAG",
@@ -80,9 +81,7 @@ def test_builder_is_deterministic_when_trace_order_changes() -> None:
     }
 
     assert build_blueprint(PRIVATE_RAG_ASSESSMENT) == build_blueprint(reversed_trace)
-    assert render_assessment_svg(PRIVATE_RAG_ASSESSMENT) == render_assessment_svg(
-        reversed_trace
-    )
+    assert render_assessment_svg(PRIVATE_RAG_ASSESSMENT) == render_assessment_svg(reversed_trace)
 
 
 def test_builder_adapts_hybrid_sensitive_assessment_without_engine_imports() -> None:
@@ -193,9 +192,7 @@ def test_unknown_trace_layers_cannot_add_arbitrary_nodes() -> None:
         ({"requirements": {}, "recommendations": {}}, "recommendations must be a sequence"),
     ],
 )
-def test_builder_rejects_malformed_assessment_boundaries(
-    assessment: object, message: str
-) -> None:
+def test_builder_rejects_malformed_assessment_boundaries(assessment: object, message: str) -> None:
     with pytest.raises(ValueError, match=message):
         build_blueprint(assessment)  # type: ignore[arg-type]
 
@@ -277,5 +274,27 @@ def test_renderer_is_stable_and_allows_only_known_svg_elements() -> None:
     svg = render_architecture_svg(build_blueprint(PRIVATE_RAG_ASSESSMENT))
 
     assert svg == render_architecture_svg(build_blueprint(PRIVATE_RAG_ASSESSMENT))
+    assert ElementTree.fromstring(svg).tag == "{http://www.w3.org/2000/svg}svg"
     for forbidden in ("<iframe", "<object", "<embed", "<audio", "<video", "<canvas"):
         assert forbidden not in svg.lower()
+
+
+def test_renderer_integrates_with_real_rules_engine_assessment() -> None:
+    result = evaluate_configuration(
+        {
+            "workload_type": "enterprise_rag",
+            "hybrid_requirement": True,
+            "data_sensitivity": "restricted",
+            "existing_kubernetes": "production",
+        }
+    )
+
+    blueprint = build_blueprint(result)
+    svg = render_assessment_svg(result)
+
+    assert blueprint.description.startswith("Hybrid")
+    assert (
+        next(node for node in blueprint.nodes if node.id == "retrieval").label
+        == (result["architecture"]["feature_or_retrieval_layer"]["component_or_pattern"])
+    )
+    assert 'data-node-id="gpu-compute"' in svg

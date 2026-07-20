@@ -139,14 +139,12 @@ class ArchitectureBlueprint:
         if len(node_ids) != len(set(node_ids)):
             raise ValueError("blueprint node ids must be unique")
         known_ids = frozenset(node_ids)
-        edge_keys: set[tuple[str, str, EdgeKind]] = set()
         for edge in self.edges:
             if edge.source not in known_ids or edge.target not in known_ids:
                 raise ValueError("blueprint edge has an unknown endpoint")
-            edge_key = (edge.source, edge.target, edge.kind)
-            if edge_key in edge_keys:
-                raise ValueError("blueprint edges must be unique")
-            edge_keys.add(edge_key)
+        edge_keys = tuple((edge.source, edge.target, edge.kind) for edge in self.edges)
+        if len(edge_keys) != len(set(edge_keys)):
+            raise ValueError("blueprint edges must be unique")
 
 
 @dataclass(frozen=True, slots=True)
@@ -356,7 +354,9 @@ def _display_name(value: object, fallback: str) -> str:
 
 
 def _include_retrieval(
-    requirements: Mapping[str, object], architecture: Mapping[str, object], components: Mapping[str, str]
+    requirements: Mapping[str, object],
+    architecture: Mapping[str, object],
+    components: Mapping[str, str],
 ) -> bool:
     if "retrieval" in components:
         return True
@@ -364,8 +364,7 @@ def _include_retrieval(
     if architecture_component is not None:
         return True
     workload = " ".join(
-        str(requirements.get(key, "")).lower()
-        for key in ("workload_type", "workload", "use_case")
+        str(requirements.get(key, "")).lower() for key in ("workload_type", "workload", "use_case")
     )
     return any(marker in workload for marker in _RETRIEVAL_MARKERS)
 
@@ -390,8 +389,8 @@ def _build_edges(include_retrieval: bool) -> tuple[ArchitectureEdge, ...]:
     )
     control_edges = (
         ArchitectureEdge("network", "api-gateway", EdgeKind.CONTROL, "connectivity"),
-        ArchitectureEdge("security", "runtime", EdgeKind.CONTROL, "policy"),
-        ArchitectureEdge("observability", "runtime", EdgeKind.TELEMETRY, "telemetry"),
+        ArchitectureEdge("security", "data-platform", EdgeKind.CONTROL, "policy"),
+        ArchitectureEdge("observability", "object-storage", EdgeKind.TELEMETRY, "telemetry"),
     )
     return (*flow_edges, *control_edges)
 
