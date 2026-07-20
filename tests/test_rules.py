@@ -8,28 +8,28 @@ from app.rules import RULES, matching_rules, normalize_requirements, resolve_rul
 
 def complete_requirements() -> dict[str, object]:
     return {
-        "workload_type": "rag",
-        "execution_mode": "inference",
-        "model_size_billion_parameters": 70,
-        "latency_requirement_ms": 175,
-        "throughput_requirement_requests_per_second": 240,
+        "workload_type": "enterprise_rag",
+        "lifecycle_mode": "inference",
+        "model_size_billion": 70,
+        "latency_target_ms": 175,
+        "throughput_target_rps": 240,
         "data_volume_tb": 24,
         "data_sensitivity": "restricted",
         "sovereignty_requirement": "in_country",
         "cloud_preference": "private_cloud",
-        "on_premises_preference": True,
+        "on_premises_preference": "required",
         "hybrid_requirement": True,
-        "availability_target_percent": 99.95,
-        "recovery_objective_minutes": 30,
-        "existing_kubernetes_environment": True,
-        "existing_cloud_environment": True,
-        "existing_data_platform": True,
+        "availability_target_pct": 99.95,
+        "recovery_objective_hours": 0.5,
+        "existing_kubernetes": "production",
+        "existing_cloud": "single_cloud",
+        "existing_data_platform": "lakehouse",
         "security_requirements": ["Audit Logging", "encryption", "audit logging"],
         "observability_maturity": "developing",
         "team_operating_model": "platform_team",
         "budget_sensitivity": "high",
         "timeline_weeks": 16,
-        "annual_growth_rate_percent": 45,
+        "annual_growth_pct": 45,
     }
 
 
@@ -107,4 +107,3 @@ def test_ruleset_identifiers_are_unique() -> None:
     identifiers = [rule.rule_id for rule in RULES]
 
     assert len(identifiers) == len(set(identifiers))
-

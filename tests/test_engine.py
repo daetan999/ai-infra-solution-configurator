@@ -10,28 +10,28 @@ from app.engine import evaluate_configuration
 
 def complete_requirements() -> dict[str, object]:
     return {
-        "workload_type": "rag",
-        "execution_mode": "inference",
-        "model_size_billion_parameters": 70,
-        "latency_requirement_ms": 175,
-        "throughput_requirement_requests_per_second": 240,
+        "workload_type": "enterprise_rag",
+        "lifecycle_mode": "inference",
+        "model_size_billion": 70,
+        "latency_target_ms": 175,
+        "throughput_target_rps": 240,
         "data_volume_tb": 24,
         "data_sensitivity": "restricted",
         "sovereignty_requirement": "in_country",
         "cloud_preference": "private_cloud",
-        "on_premises_preference": True,
+        "on_premises_preference": "required",
         "hybrid_requirement": True,
-        "availability_target_percent": 99.95,
-        "recovery_objective_minutes": 30,
-        "existing_kubernetes_environment": True,
-        "existing_cloud_environment": True,
-        "existing_data_platform": True,
+        "availability_target_pct": 99.95,
+        "recovery_objective_hours": 0.5,
+        "existing_kubernetes": "production",
+        "existing_cloud": "single_cloud",
+        "existing_data_platform": "lakehouse",
         "security_requirements": ["encryption", "audit logging"],
         "observability_maturity": "developing",
         "team_operating_model": "platform_team",
         "budget_sensitivity": "high",
         "timeline_weeks": 16,
-        "annual_growth_rate_percent": 45,
+        "annual_growth_pct": 45,
     }
 
 
@@ -42,15 +42,15 @@ def test_result_has_every_required_solution_layer_and_trace_field() -> None:
     assert len(result["recommendations"]) == len(ARCHITECTURE_LAYERS)
     for recommendation in result["recommendations"]:
         assert set(TRACE_FIELDS).issubset(recommendation)
-        assert recommendation["recommendation"] == recommendation[
-            "recommended_component_or_pattern"
-        ]
+        assert (
+            recommendation["recommendation"] == recommendation["recommended_component_or_pattern"]
+        )
         assert recommendation["layer"] in ARCHITECTURE_LAYERS
         assert recommendation["priority"] >= 0
     assert result["placement"] == result["deployment_pattern"]
-    assert result["placement"] == result["architecture"]["deployment_pattern"][
-        "component_or_pattern"
-    ]
+    assert (
+        result["placement"] == result["architecture"]["deployment_pattern"]["component_or_pattern"]
+    )
 
 
 def test_private_hybrid_rag_uses_explainable_specialized_patterns() -> None:
@@ -80,8 +80,8 @@ def test_input_change_updates_digest_and_recommendation() -> None:
     cloud = complete_requirements()
     cloud.update(
         hybrid_requirement=False,
-        on_premises_preference=False,
-        cloud_preference="public_cloud",
+        on_premises_preference="avoid",
+        cloud_preference="aws",
         sovereignty_requirement="none",
         data_sensitivity="internal",
     )
@@ -112,9 +112,7 @@ def test_sparse_evidence_lowers_confidence_and_creates_questions() -> None:
 
     assert result["solution_confidence"]["level"] == "low"
     assert result["solution_confidence"]["score"] < 0.6
-    assert "latency_requirement_ms" in {
-        evidence["field"] for evidence in result["missing_evidence"]
-    }
+    assert "latency_target_ms" in {evidence["field"] for evidence in result["missing_evidence"]}
     assert result["open_questions"]
 
 
