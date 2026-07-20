@@ -1,0 +1,19 @@
+services:
+  configurator:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      CONFIGURATOR_DB: /app/data/configurator.db
+      SEED_DEMO_DATA: "true"
+    volumes:
+      - configurator-data:/app/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  configurator-data:
+
