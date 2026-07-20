@@ -596,6 +596,7 @@ def _low_observability(requirements: Mapping[str, Any]) -> bool:
         "ad_hoc",
         "basic",
         "developing",
+        "emerging",
         "low",
         "none",
     }
@@ -664,7 +665,7 @@ def resolve_rule_conflicts(rules: Iterable[Rule]) -> RuleResolution:
                     "superseded_rule": candidate.rule_id,
                     "superseded_priority": candidate.priority,
                     "reason": (
-                        "Higher priority won; equal priorities use lexical rule ID."
+                        "Higher priority rule selected."
                         if winner.priority != candidate.priority
                         else "Equal priority resolved by lexical rule ID."
                     ),
