@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from app.demo_data import demo_scenarios, seed_demo_scenarios
-
-from .test_repository import repository
+from tests.test_repository import repository
 
 
 def test_three_fictional_demo_scenarios_cover_required_workloads() -> None:

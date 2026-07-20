@@ -3,9 +3,8 @@ from __future__ import annotations
 from fastapi.testclient import TestClient
 
 from app.main import create_app
-
-from .test_repository import repository
-from .test_schemas import valid_payload
+from tests.test_repository import repository
+from tests.test_schemas import valid_payload
 
 
 def client() -> TestClient:

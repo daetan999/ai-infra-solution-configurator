@@ -5,8 +5,7 @@ from pathlib import Path
 
 from app.repository import ScenarioRepository
 from app.schemas import ScenarioCreate
-
-from .test_schemas import valid_payload
+from tests.test_schemas import valid_payload
 
 
 def fake_evaluator(requirements: dict[str, object]) -> dict[str, object]:
