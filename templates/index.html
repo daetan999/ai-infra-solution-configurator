@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Build explainable, deterministic enterprise AI solution hypotheses from discovery requirements.">
+    <title>Enterprise AI Solution Configurator</title>
+    <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to configurator</a>
+
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Enterprise AI Solution Configurator home">
+        <span class="brand-mark" aria-hidden="true">
+          <span></span><span></span><span></span>
+        </span>
+        <span>
+          <strong>Solution Configurator</strong>
+          <small>Enterprise AI / Discovery workspace</small>
+        </span>
+      </a>
+      <div class="topbar-actions">
+        <span class="engine-status"><i aria-hidden="true"></i> Rules engine online</span>
+        <button class="button button-quiet" id="new-scenario" type="button">
+          <span aria-hidden="true">＋</span> New scenario
+        </button>
+      </div>
+    </header>
+
+    <main id="workspace" class="workspace">
+      <aside class="scenario-panel" aria-labelledby="scenario-heading">
+        <div class="aside-heading">
+          <div>
+            <p class="eyebrow">Workspace</p>
+            <h1 id="scenario-heading">Discovery scenarios</h1>
+          </div>
+          <span id="scenario-count" class="count-pill" aria-label="Scenario count">0</span>
+        </div>
+        <p class="aside-copy">Fictional starting points and saved workshop hypotheses.</p>
+        <div id="scenario-rail" class="scenario-rail" aria-live="polite" aria-label="Saved scenarios">
+          <div class="rail-placeholder">Loading scenarios…</div>
+        </div>
+        <div class="scope-note">
+          <span class="scope-icon" aria-hidden="true">◇</span>
+          <div>
+            <strong>Hypothesis, not final design</strong>
+            <p>Every recommendation needs workload evidence and technical validation.</p>
+          </div>
+        </div>
+      </aside>
+
+      <section class="main-panel">
+        <div class="hero-row">
+          <div>
+            <p class="eyebrow">Guided discovery</p>
+            <h2>Shape an architecture from the requirements that matter.</h2>
+            <p>Capture operating constraints, trace every rule, and leave the workshop with a testable solution hypothesis.</p>
+          </div>
+          <div class="hero-badge" aria-label="Deterministic recommendation engine">
+            <span aria-hidden="true">↳</span>
+            <div><strong>Explainable by design</strong><small>Rules before recommendations</small></div>
+          </div>
+        </div>
+
+        <div class="mode-switcher" role="tablist" aria-label="Configurator views">
+          <button class="mode-tab is-active" id="requirements-tab" role="tab" aria-selected="true" aria-controls="requirements-view" type="button">Requirements</button>
+          <button class="mode-tab" id="solution-tab" role="tab" aria-selected="false" aria-controls="solution-view" type="button" disabled>Solution brief</button>
+        </div>
+
+        <section id="requirements-view" class="view-panel" role="tabpanel" aria-labelledby="requirements-tab">
+          <nav class="stage-navigation" aria-label="Requirement stages">
+            <button class="stage-tab" data-stage="1" type="button" aria-current="step"><span>01</span><b>Intent</b><small>Workload</small></button>
+            <button class="stage-tab" data-stage="2" type="button"><span>02</span><b>Service targets</b><small>SLOs</small></button>
+            <button class="stage-tab" data-stage="3" type="button"><span>03</span><b>Placement &amp; data</b><small>Boundaries</small></button>
+            <button class="stage-tab" data-stage="4" type="button"><span>04</span><b>Operations</b><small>Run model</small></button>
+            <button class="stage-tab" data-stage="5" type="button"><span>05</span><b>Constraints</b><small>Commit</small></button>
+          </nav>
+
+          <form id="configurator-form" aria-describedby="recommendation-disclaimer">
+            <div class="form-heading">
+              <div>
+                <p id="stage-kicker" class="eyebrow">Stage 1 of 5</p>
+                <h3 id="stage-title">Define the customer intent</h3>
+              </div>
+              <p id="stage-help">Start with the workload and the operating mode the platform must support.</p>
+            </div>
+
+            <div class="stage-panel" data-stage-panel="1">
+              <div class="field-grid field-grid-wide">
+                <label class="field field-span-2">Scenario name
+                  <input name="name" required maxlength="120" autocomplete="off" placeholder="e.g. Private knowledge assistant">
+                  <small>A specific, fictional workshop scenario.</small>
+                </label>
+                <label class="field field-span-2">Discovery context
+                  <textarea name="description" rows="3" minlength="10" maxlength="600" required placeholder="What outcome is the customer trying to achieve?"></textarea>
+                </label>
+                <label class="field">Workload type
+                  <select name="workload_type" required>
+                    <option value="enterprise_rag">Enterprise RAG</option>
+                    <option value="real_time_inference">Real-time inference</option>
+                    <option value="hybrid_ai_platform">Hybrid AI platform</option>
+                    <option value="model_training">Model training</option>
+                    <option value="batch_inference">Batch inference</option>
+                    <option value="feature_platform">Feature platform</option>
+                  </select>
+                </label>
+                <label class="field">Training or inference
+                  <select name="lifecycle_mode" required>
+                    <option value="inference">Production inference</option>
+                    <option value="training">Model training</option>
+                    <option value="both">Training and inference</option>
+                  </select>
+                </label>
+                <label class="field">Model size <span class="unit">B parameters</span>
+                  <input name="model_size_billion" type="number" min="0.1" max="1000" step="0.1" value="13" required inputmode="decimal">
+                </label>
+                <div class="field field-readout">
+                  <span>Decision signal</span>
+                  <strong>Workload × lifecycle × model scale</strong>
+                  <small>Sets the first-pass compute, serving, and orchestration path.</small>
+                </div>
+              </div>
+            </div>
+
+            <div class="stage-panel" data-stage-panel="2" hidden>
+              <div class="field-grid">
+                <label class="field">Latency target <span class="unit">ms p95</span>
+                  <input name="latency_target_ms" type="number" min="1" max="600000" value="800" required inputmode="numeric">
+                </label>
+                <label class="field">Peak throughput <span class="unit">requests/s</span>
+                  <input name="throughput_target_rps" type="number" min="0.01" max="1000000" step="0.01" value="12" required inputmode="decimal">
+                </label>
+                <label class="field">Active data volume <span class="unit">TB</span>
+                  <input name="data_volume_tb" type="number" min="0.01" max="100000" step="0.01" value="8" required inputmode="decimal">
+                </label>
+                <label class="field">Annual growth <span class="unit">%</span>
+                  <input name="annual_growth_pct" type="number" min="0" max="1000" step="0.1" value="30" required inputmode="decimal">
+                </label>
+                <label class="field">Availability target <span class="unit">%</span>
+                  <input name="availability_target_pct" type="number" min="90" max="99.999" step="0.001" value="99.9" required inputmode="decimal">
+                </label>
+                <label class="field">Recovery objective <span class="unit">hours</span>
+                  <input name="recovery_objective_hours" type="number" min="0" max="720" step="0.25" value="4" required inputmode="decimal">
+                </label>
+              </div>
+              <div class="signal-strip"><span aria-hidden="true">◎</span><p><strong>Service targets create trade-offs.</strong> Tight latency and recovery objectives can change placement, redundancy, and accelerator choices.</p></div>
+            </div>
+
+            <div class="stage-panel" data-stage-panel="3" hidden>
+              <div class="field-grid">
+                <label class="field">Data sensitivity
+                  <select name="data_sensitivity" required>
+                    <option value="public">Public</option>
+                    <option value="internal">Internal</option>
+                    <option value="confidential" selected>Confidential</option>
+                    <option value="restricted">Restricted / regulated</option>
+                  </select>
+                </label>
+                <label class="field">Sovereignty requirement
+                  <select name="sovereignty_requirement" required>
+                    <option value="none">No location restriction</option>
+                    <option value="in_region" selected>Remain within selected region</option>
+                    <option value="in_country">Remain in-country</option>
+                    <option value="specific_jurisdiction">Specific jurisdiction</option>
+                  </select>
+                </label>
+                <label class="field">Cloud preference
+                  <select name="cloud_preference" required>
+                    <option value="cloud_agnostic">Cloud agnostic</option>
+                    <option value="aws">Amazon Web Services</option>
+                    <option value="azure" selected>Microsoft Azure</option>
+                    <option value="gcp">Google Cloud</option>
+                    <option value="private_cloud">Private cloud</option>
+                    <option value="no_cloud">No public cloud</option>
+                  </select>
+                </label>
+                <label class="field">On-premises preference
+                  <select name="on_premises_preference" required>
+                    <option value="avoid">Avoid</option>
+                    <option value="neutral" selected>Neutral</option>
+                    <option value="prefer">Preferred</option>
+                    <option value="required">Required</option>
+                  </select>
+                </label>
+                <label class="choice-card">
+                  <input name="hybrid_requirement" type="checkbox">
+                  <span><strong>Hybrid is required</strong><small>Design for workloads or data across deployment boundaries.</small></span>
+                </label>
+                <label class="field">Existing Kubernetes
+                  <select name="existing_kubernetes" required>
+                    <option value="none">No existing environment</option>
+                    <option value="pilot">Pilot environment</option>
+                    <option value="production" selected>Production platform</option>
+                  </select>
+                </label>
+                <label class="field">Existing cloud environment
+                  <select name="existing_cloud" required>
+                    <option value="none">No existing cloud</option>
+                    <option value="single_cloud" selected>Single-cloud landing zone</option>
+                    <option value="multi_cloud">Multi-cloud estate</option>
+                  </select>
+                </label>
+                <label class="field">Existing data platform
+                  <select name="existing_data_platform" required>
+                    <option value="none">No shared platform</option>
+                    <option value="warehouse">Data warehouse</option>
+                    <option value="data_lake">Data lake</option>
+                    <option value="lakehouse" selected>Lakehouse</option>
+                    <option value="streaming">Streaming platform</option>
+                  </select>
+                </label>
+              </div>
+            </div>
+
+            <div class="stage-panel" data-stage-panel="4" hidden>
+              <div class="field-grid">
+                <fieldset class="security-fieldset field-span-2">
+                  <legend>Security requirements</legend>
+                  <div class="security-options">
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="customer_managed_keys" checked><span><strong>Customer-managed keys</strong><small>Control encryption key custody and rotation.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="private_networking" checked><span><strong>Private networking</strong><small>Keep data and serving paths off public networks.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="audit_logging" checked><span><strong>Audit logging</strong><small>Retain control-plane and data-access evidence.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="encryption_at_rest"><span><strong>Encryption at rest</strong><small>Protect stored model, vector, and source data.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="workload_identity"><span><strong>Workload identity</strong><small>Use short-lived identities for service access.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="encryption_in_transit"><span><strong>Encryption in transit</strong><small>Protect service and data paths end to end.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="data_loss_prevention"><span><strong>Data loss prevention</strong><small>Inspect and control sensitive data movement.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="confidential_computing"><span><strong>Confidential computing</strong><small>Protect sensitive workloads during execution.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="zero_trust"><span><strong>Zero trust</strong><small>Continuously verify identity and policy context.</small></span></label>
+                    <label class="choice-card"><input name="security_requirements" type="checkbox" value="regulatory_controls"><span><strong>Regulatory controls</strong><small>Map platform controls to compliance evidence.</small></span></label>
+                  </div>
+                </fieldset>
+                <label class="field">Observability maturity
+                  <select name="observability_maturity" required>
+                    <option value="emerging">Emerging / fragmented</option>
+                    <option value="developing" selected>Developing shared telemetry</option>
+                    <option value="established">Established SLO practice</option>
+                    <option value="advanced">Advanced model and system operations</option>
+                  </select>
+                </label>
+                <label class="field">Team operating model
+                  <select name="team_operating_model" required>
+                    <option value="centralized">Centralized team</option>
+                    <option value="platform_team">Dedicated platform team</option>
+                    <option value="federated" selected>Federated product teams</option>
+                    <option value="outsourced">Outsourced operations</option>
+                  </select>
+                </label>
+              </div>
+              <div class="operating-map" aria-label="Operational responsibility reminder">
+                <div><span>01</span><strong>Own</strong><small>Platform boundaries</small></div>
+                <div><span>02</span><strong>Observe</strong><small>Model and system SLOs</small></div>
+                <div><span>03</span><strong>Respond</strong><small>Failure and recovery</small></div>
+              </div>
+            </div>
+
+            <div class="stage-panel" data-stage-panel="5" hidden>
+              <div class="field-grid">
+                <label class="field">Budget sensitivity
+                  <select name="budget_sensitivity" required>
+                    <option value="low">Low sensitivity / outcome-led</option>
+                    <option value="moderate" selected>Moderate / balanced</option>
+                    <option value="high">High / cost constrained</option>
+                  </select>
+                </label>
+                <label class="field">Target timeline <span class="unit">weeks</span>
+                  <input name="timeline_weeks" type="number" min="1" max="260" value="16" required inputmode="numeric">
+                </label>
+              </div>
+              <section class="review-card" aria-labelledby="review-heading">
+                <div class="review-heading"><div><p class="eyebrow">Ready for synthesis</p><h4 id="review-heading">Review the requirement summary</h4></div><button id="refresh-summary" class="text-button" type="button">Refresh</button></div>
+                <dl id="requirement-summary" class="requirement-summary"><div><dt>Waiting for inputs</dt><dd>Complete the stages to create a summary.</dd></div></dl>
+              </section>
+              <label class="confirmation">
+                <input id="hypothesis-confirmation" type="checkbox" required>
+                <span>I understand this is an initial solution hypothesis that requires technical validation.</span>
+              </label>
+              <p id="recommendation-disclaimer" class="disclaimer">This workspace supports discovery and solution workshops. It does not replace a formal architecture review, security assessment, or workload benchmark.</p>
+            </div>
+
+            <div class="form-actions">
+              <button id="previous-stage" class="button button-quiet" type="button" disabled>Back</button>
+              <div class="form-action-end">
+                <span id="save-state" class="save-state" aria-live="polite">Not saved</span>
+                <button id="next-stage" class="button button-primary" type="button">Continue <span aria-hidden="true">→</span></button>
+                <button id="generate-solution" class="button button-primary" type="submit" hidden>Generate solution <span aria-hidden="true">↗</span></button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <section id="solution-view" class="view-panel" role="tabpanel" aria-labelledby="solution-tab" hidden>
+          <div id="solution-empty" class="solution-empty">
+            <div class="empty-orbit" aria-hidden="true"><span></span><span></span><i></i></div>
+            <p class="eyebrow">No active solution</p>
+            <h3>Complete discovery to generate a traceable hypothesis.</h3>
+            <p>The rules engine will produce the architecture, rationale, risks, validation plan, and workshop outputs.</p>
+            <button class="button button-primary" id="return-to-requirements" type="button">Open requirements</button>
+          </div>
+
+          <div id="solution-content" hidden>
+            <header class="solution-header">
+              <div><p class="eyebrow">Solution hypothesis</p><h3 id="solution-name">Untitled scenario</h3><p id="solution-summary">Generated from the captured discovery inputs.</p></div>
+              <div class="solution-actions">
+                <button class="button button-quiet export-button" data-export-format="json" type="button">JSON</button>
+                <button class="button button-quiet export-button" data-export-format="markdown" type="button">Markdown</button>
+                <button class="button button-quiet export-button" data-export-format="svg" type="button">SVG</button>
+              </div>
+            </header>
+
+            <div class="solution-grid">
+              <section class="architecture-card solution-card">
+                <div class="card-heading"><div><p class="eyebrow">Generated architecture</p><h4>Recommended deployment pattern</h4></div><span class="deterministic-tag">Deterministic SVG</span></div>
+                <div class="diagram-frame"><img id="architecture-diagram" alt="Generated architecture for the selected scenario"></div>
+              </section>
+
+              <aside class="confidence-card solution-card" id="solution-confidence">
+                <p class="eyebrow">Solution confidence</p>
+                <div class="confidence-gauge"><div id="confidence-ring" class="confidence-ring"><strong id="confidence-score">—</strong></div><div><h4 id="confidence-level">Awaiting evidence</h4><p id="confidence-reason">Complete discovery to score the hypothesis.</p></div></div>
+                <div class="confidence-scale" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                <p class="confidence-note">Confidence reflects input completeness and rule certainty—not production readiness.</p>
+              </aside>
+
+              <section class="solution-card trace-card field-span-2">
+                <div class="card-heading"><div><p class="eyebrow">Decision evidence</p><h4>Explainable recommendation traces</h4></div><span id="trace-count" class="count-pill">0 rules</span></div>
+                <div id="recommendation-traces" class="trace-list"></div>
+              </section>
+
+              <section class="solution-card">
+                <p class="eyebrow">Recommended layers</p><h4>Architecture components</h4>
+                <dl id="component-recommendations" class="component-list"></dl>
+              </section>
+
+              <section class="solution-card">
+                <p class="eyebrow">Challenge the hypothesis</p><h4>Risks, assumptions &amp; alternatives</h4>
+                <div class="insight-tabs" role="tablist" aria-label="Solution caveats">
+                  <button class="insight-tab is-active" type="button" role="tab" data-insight="solution-risks" aria-selected="true">Risks</button>
+                  <button class="insight-tab" type="button" role="tab" data-insight="solution-assumptions" aria-selected="false">Assumptions</button>
+                  <button class="insight-tab" type="button" role="tab" data-insight="solution-alternatives" aria-selected="false">Alternatives</button>
+                </div>
+                <ul id="solution-risks" class="insight-list"></ul>
+                <ul id="solution-assumptions" class="insight-list" hidden></ul>
+                <ul id="solution-alternatives" class="insight-list" hidden></ul>
+              </section>
+
+              <section class="solution-card action-card" id="poc-recommendation">
+                <span class="action-index">01</span><p class="eyebrow">Recommended PoC</p><h4 id="poc-title">Define a measurable validation slice</h4><p id="poc-detail">The rules engine will frame scope and success measures.</p>
+              </section>
+              <section class="solution-card action-card" id="next-workshop">
+                <span class="action-index">02</span><p class="eyebrow">Next workshop</p><h4 id="workshop-title">Validate the operating boundaries</h4><p id="workshop-detail">The rules engine will frame participants and decisions.</p>
+              </section>
+
+              <section class="solution-card field-span-2">
+                <div class="card-heading"><div><p class="eyebrow">Qualification backlog</p><h4>Open questions</h4></div><span aria-hidden="true">?</span></div>
+                <ol id="open-questions" class="question-list"></ol>
+              </section>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  </body>
+</html>

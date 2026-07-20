@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise AI Solution Configurator workspace</title>
+  <desc id="desc">A dark discovery workspace connecting customer requirements through deterministic rules to an explainable architecture hypothesis.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#0c1118"/><stop offset="1" stop-color="#070a0f"/></linearGradient>
+    <linearGradient id="mint" x1="0" x2="1"><stop stop-color="#4fe1c1"/><stop offset="1" stop-color="#6ca8ff"/></linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="16"/></filter>
+    <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0v36" fill="none" stroke="#1f2a36" stroke-width="1"/></pattern>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bg)"/>
+  <rect width="1600" height="900" fill="url(#grid)" opacity=".34"/>
+  <circle cx="1290" cy="110" r="210" fill="#245f59" opacity=".18" filter="url(#glow)"/>
+  <rect x="70" y="66" width="1460" height="768" rx="28" fill="#0e141d" stroke="#2b3542" stroke-width="2"/>
+  <path d="M70 154h1460" stroke="#2b3542" stroke-width="2"/>
+  <g transform="translate(105 96)">
+    <rect width="38" height="38" rx="10" fill="#132d2a" stroke="#3b665e"/>
+    <path d="M10 28v-9h6v9zm9 0V9h6v19zm9 0V15h6v13z" fill="#4fe1c1"/>
+    <text x="54" y="16" fill="#f5f7fb" font-family="Arial, sans-serif" font-weight="700" font-size="16">SOLUTION CONFIGURATOR</text>
+    <text x="54" y="34" fill="#8292a5" font-family="Arial, sans-serif" font-size="10" letter-spacing="1.4">ENTERPRISE AI / DISCOVERY WORKSPACE</text>
+  </g>
+  <g transform="translate(1198 104)"><circle cx="7" cy="7" r="5" fill="#4fe1c1"/><text x="22" y="12" fill="#aeb9c7" font-family="Arial, sans-serif" font-size="12">RULES ENGINE ONLINE</text></g>
+  <rect x="70" y="154" width="276" height="680" fill="#0b1017"/>
+  <path d="M346 154v680" stroke="#2b3542" stroke-width="2"/>
+  <text x="106" y="202" fill="#4fe1c1" font-family="Arial, sans-serif" font-size="10" font-weight="700" letter-spacing="2">WORKSPACE</text>
+  <text x="106" y="230" fill="#f5f7fb" font-family="Arial, sans-serif" font-size="18" font-weight="700">Discovery scenarios</text>
+  <g font-family="Arial, sans-serif">
+    <rect x="92" y="262" width="230" height="68" rx="11" fill="#16322e" stroke="#34635b"/>
+    <rect x="92" y="273" width="3" height="46" rx="2" fill="#4fe1c1"/>
+    <text x="111" y="289" fill="#f5f7fb" font-size="13" font-weight="700">Private knowledge assistant</text><text x="111" y="311" fill="#8fa0b2" font-size="10">Enterprise RAG · v1</text>
+    <rect x="92" y="340" width="230" height="68" rx="11" fill="#101720" stroke="#27323f"/>
+    <text x="111" y="367" fill="#c8d0dc" font-size="13" font-weight="700">Real-time service</text><text x="111" y="389" fill="#8fa0b2" font-size="10">Inference · v1</text>
+    <rect x="92" y="418" width="230" height="68" rx="11" fill="#101720" stroke="#27323f"/>
+    <text x="111" y="445" fill="#c8d0dc" font-size="13" font-weight="700">Hybrid sensitive platform</text><text x="111" y="467" fill="#8fa0b2" font-size="10">Hybrid AI · v1</text>
+  </g>
+  <g transform="translate(396 194)" font-family="Arial, sans-serif">
+    <text fill="#4fe1c1" font-size="10" font-weight="700" letter-spacing="2">GUIDED DISCOVERY</text>
+    <text y="48" fill="#f5f7fb" font-size="35" font-weight="700">Shape an architecture from</text>
+    <text y="89" fill="#f5f7fb" font-size="35" font-weight="700">the requirements that matter.</text>
+    <text y="120" fill="#92a1b3" font-size="14">Traceable customer evidence. Deterministic recommendations. A testable next move.</text>
+  </g>
+  <g transform="translate(396 355)" font-family="Arial, sans-serif">
+    <rect width="1090" height="104" rx="14" fill="#0a0f15" stroke="#2b3542"/>
+    <g transform="translate(24 18)"><text fill="#4fe1c1" font-size="10">01</text><text y="28" fill="#f5f7fb" font-size="13" font-weight="700">Intent</text><text y="48" fill="#76879a" font-size="10">Workload</text></g>
+    <path d="M218 0v104M436 0v104M654 0v104M872 0v104" stroke="#2b3542"/>
+    <g transform="translate(242 18)"><text fill="#6e8195" font-size="10">02</text><text y="28" fill="#c8d0dc" font-size="13" font-weight="700">Service targets</text><text y="48" fill="#76879a" font-size="10">SLOs</text></g>
+    <g transform="translate(460 18)"><text fill="#6e8195" font-size="10">03</text><text y="28" fill="#c8d0dc" font-size="13" font-weight="700">Placement &amp; data</text><text y="48" fill="#76879a" font-size="10">Boundaries</text></g>
+    <g transform="translate(678 18)"><text fill="#6e8195" font-size="10">04</text><text y="28" fill="#c8d0dc" font-size="13" font-weight="700">Operations</text><text y="48" fill="#76879a" font-size="10">Run model</text></g>
+    <g transform="translate(896 18)"><text fill="#6e8195" font-size="10">05</text><text y="28" fill="#c8d0dc" font-size="13" font-weight="700">Constraints</text><text y="48" fill="#76879a" font-size="10">Commit</text></g>
+    <rect y="0" width="218" height="3" rx="2" fill="#4fe1c1"/>
+  </g>
+  <g transform="translate(396 477)" font-family="Arial, sans-serif">
+    <rect width="650" height="302" rx="16" fill="#111923" stroke="#2b3542"/>
+    <text x="26" y="35" fill="#4fe1c1" font-size="10" font-weight="700" letter-spacing="2">CUSTOMER INTENT</text>
+    <text x="26" y="67" fill="#f5f7fb" font-size="20" font-weight="700">Define the workload boundary</text>
+    <g transform="translate(26 93)">
+      <text fill="#aeb9c7" font-size="11">WORKLOAD TYPE</text><rect y="13" width="288" height="50" rx="8" fill="#090e14" stroke="#344150"/><text x="15" y="44" fill="#f5f7fb" font-size="13">Enterprise RAG</text>
+      <g transform="translate(310)"><text fill="#aeb9c7" font-size="11">LIFECYCLE</text><rect y="13" width="288" height="50" rx="8" fill="#090e14" stroke="#344150"/><text x="15" y="44" fill="#f5f7fb" font-size="13">Production inference</text></g>
+      <g transform="translate(0 88)"><text fill="#aeb9c7" font-size="11">MODEL SCALE</text><rect y="13" width="288" height="50" rx="8" fill="#090e14" stroke="#344150"/><text x="15" y="44" fill="#f5f7fb" font-size="13">70B parameters</text></g>
+      <g transform="translate(310 88)"><text fill="#4fe1c1" font-size="10">DECISION SIGNAL</text><rect y="13" width="288" height="50" rx="8" fill="#10251f" stroke="#31554e"/><text x="15" y="43" fill="#d8fff6" font-size="12" font-weight="700">Workload × lifecycle × scale</text></g>
+    </g>
+  </g>
+  <g transform="translate(1066 477)" font-family="Arial, sans-serif">
+    <rect width="420" height="302" rx="16" fill="#0f171f" stroke="#31554e"/>
+    <text x="25" y="36" fill="#4fe1c1" font-size="10" font-weight="700" letter-spacing="2">EXPLAINABLE BY DESIGN</text>
+    <text x="25" y="68" fill="#f5f7fb" font-size="19" font-weight="700">Evidence → rule → pattern</text>
+    <path d="M52 126h285" stroke="url(#mint)" stroke-width="3"/>
+    <circle cx="52" cy="126" r="11" fill="#4fe1c1"/><circle cx="194" cy="126" r="11" fill="#9e91ff"/><circle cx="337" cy="126" r="11" fill="#6ca8ff"/>
+    <text x="25" y="165" fill="#9cadbe" font-size="11">REQUIREMENT</text><text x="156" y="165" fill="#9cadbe" font-size="11">RULE</text><text x="296" y="165" fill="#9cadbe" font-size="11">SOLUTION</text>
+    <rect x="24" y="192" width="372" height="76" rx="10" fill="#0a1016" stroke="#2b3542"/>
+    <text x="43" y="219" fill="#4fe1c1" font-size="10">DEPLOY-HYBRID</text>
+    <text x="43" y="244" fill="#f5f7fb" font-size="13" font-weight="700">Private hybrid deployment pattern</text>
+  </g>
+</svg>
