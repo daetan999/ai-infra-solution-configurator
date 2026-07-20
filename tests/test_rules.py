@@ -107,6 +107,8 @@ def test_conflict_resolution_uses_priority_then_rule_id() -> None:
         "COMPUTE-ZULU",
         "COMPUTE-LOW",
     ]
+    assert resolution.conflicts[0]["reason"] == "Equal priority resolved by lexical rule ID."
+    assert resolution.conflicts[1]["reason"] == "Higher priority rule selected."
 
 
 def test_ruleset_identifiers_are_unique() -> None:
@@ -146,3 +148,11 @@ def test_neutral_placement_values_do_not_trigger_cloud_or_on_premises_rules() ->
 
     assert "DEPLOY-CLOUD" not in identifiers
     assert "DEPLOY-ONPREM" not in identifiers
+
+
+def test_emerging_observability_triggers_managed_operating_baseline() -> None:
+    matches = matching_rules(
+        {"workload_type": "enterprise_rag", "observability_maturity": "emerging"}
+    )
+
+    assert "OBSERVABILITY-DEVELOPING" in {rule.rule_id for rule in matches}
