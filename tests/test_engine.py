@@ -126,6 +126,28 @@ def test_complete_evidence_produces_actionable_workshop_outputs() -> None:
     assert len(result["recommended_poc"]["success_criteria"]) >= 3
     assert result["recommended_next_workshop"]["title"]
     assert result["recommended_next_workshop"]["agenda"]
+    assert len(result["assumptions"]) >= 3
+    assert any("annual growth" in assumption.lower() for assumption in result["assumptions"])
+
+
+def test_growth_rate_changes_capacity_runway_guidance() -> None:
+    low_growth = complete_requirements() | {"annual_growth_pct": 0}
+    high_growth = complete_requirements() | {"annual_growth_pct": 80}
+
+    low_result = evaluate_configuration(low_growth)
+    high_result = evaluate_configuration(high_growth)
+
+    assert not any(
+        item["area"] == "capacity runway"
+        for item in low_result["migration_considerations"]
+    )
+    growth_guidance = next(
+        item
+        for item in high_result["migration_considerations"]
+        if item["area"] == "capacity runway"
+    )
+    assert "phase" in growth_guidance["consideration"].lower()
+    assert "80%" in growth_guidance["validation"]
 
 
 def test_engine_does_not_mutate_validated_input() -> None:

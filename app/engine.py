@@ -241,12 +241,11 @@ def _open_questions(
     return questions
 
 
-def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str, str]]:
+def _platform_migration_considerations(
+    requirements: Mapping[str, Any],
+) -> list[dict[str, str]]:
     considerations: list[dict[str, str]] = []
-    existing_kubernetes = requirements.get("existing_kubernetes")
-    existing_cloud = requirements.get("existing_cloud")
-    existing_data_platform = requirements.get("existing_data_platform")
-    if existing_kubernetes not in {None, "", "none"}:
+    if requirements.get("existing_kubernetes") not in {None, "", "none"}:
         considerations.append(
             {
                 "area": "orchestration",
@@ -256,7 +255,7 @@ def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str,
                 ),
             }
         )
-    if existing_cloud not in {None, "", "none"}:
+    if requirements.get("existing_cloud") not in {None, "", "none"}:
         considerations.append(
             {
                 "area": "cloud foundation",
@@ -266,7 +265,7 @@ def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str,
                 ),
             }
         )
-    if existing_data_platform not in {None, "", "none"}:
+    if requirements.get("existing_data_platform") not in {None, "", "none"}:
         considerations.append(
             {
                 "area": "data",
@@ -276,6 +275,11 @@ def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str,
                 ),
             }
         )
+    return considerations
+
+
+def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str, str]]:
+    considerations = _platform_migration_considerations(requirements)
     if requirements.get("hybrid_requirement") is True:
         considerations.append(
             {
@@ -283,6 +287,20 @@ def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str,
                 "consideration": "Migrate one governed flow before expanding cross-domain traffic.",
                 "validation": (
                     "Exercise identity, policy, latency, retry, and outage behavior end to end."
+                ),
+            }
+        )
+    annual_growth = float(requirements.get("annual_growth_pct") or 0)
+    if annual_growth >= 25:
+        considerations.append(
+            {
+                "area": "capacity runway",
+                "consideration": (
+                    "Phase capacity in measured increments with explicit growth headroom."
+                ),
+                "validation": (
+                    f"Model the {annual_growth:g}% annual growth case by quarter and define "
+                    "utilization triggers for the next capacity increment."
                 ),
             }
         )
@@ -299,6 +317,33 @@ def _migration_considerations(requirements: Mapping[str, Any]) -> list[dict[str,
             }
         )
     return considerations
+
+
+def _assumptions(requirements: Mapping[str, Any]) -> list[str]:
+    assumptions = [
+        (
+            "Latency and throughput targets are planning objectives until measured at an agreed "
+            "percentile, concurrency, and service boundary."
+        ),
+        (
+            "Existing platform and operating-maturity inputs are assumed accurate enough for "
+            "discovery and require validation by their owners."
+        ),
+        (
+            f"Annual growth of {_display(requirements.get('annual_growth_pct'))}% is treated as a "
+            "compound planning signal, not reserved capacity."
+        ),
+        (
+            f"The {_display(requirements.get('availability_target_pct'))}% availability target "
+            f"and {_display(requirements.get('recovery_objective_hours'))}-hour recovery objective "
+            "are assumed to share one service boundary."
+        ),
+    ]
+    if requirements.get("hybrid_requirement") is True:
+        assumptions.append(
+            "Required cross-environment identity, network, and policy controls can be approved."
+        )
+    return assumptions
 
 
 def _poc(requirements: Mapping[str, Any]) -> dict[str, Any]:
@@ -380,6 +425,7 @@ def evaluate_configuration(inputs: Mapping[str, Any]) -> dict[str, Any]:
         "placement": placement,
         "deployment_pattern": placement,
         "migration_considerations": _migration_considerations(requirements),
+        "assumptions": _assumptions(requirements),
         "primary_risks": _primary_risks(resolution.selected),
         "open_questions": _open_questions(missing, resolution.conflicts, resolution.selected),
         "recommended_poc": _poc(requirements),

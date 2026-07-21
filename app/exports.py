@@ -111,12 +111,42 @@ def _workshop_lines(value: object) -> list[str]:
     return lines
 
 
+def _recommendation_lines(value: object) -> list[str]:
+    if not isinstance(value, Sequence) or isinstance(value, (str, bytes)):
+        return []
+    lines: list[str] = []
+    for recommendation in value:
+        if not isinstance(recommendation, Mapping):
+            continue
+        component = recommendation.get(
+            "recommended_component_or_pattern", recommendation.get("recommendation", "Review")
+        )
+        lines.extend(
+            [
+                f"### {_safe_text(recommendation.get('layer', 'Solution pattern')).title()}",
+                "",
+                "- **Requirement:** "
+                + _safe_text(recommendation.get("customer_requirement", "Not stated")),
+                f"- **Rule:** {_safe_text(recommendation.get('rule_triggered', 'Not stated'))}",
+                f"- **Recommendation:** {_safe_text(component)}",
+                f"- **Reason:** {_safe_text(recommendation.get('reason', 'Not stated'))}",
+                "- **Alternative:** "
+                + _safe_text(recommendation.get("alternative", "Validate during discovery")),
+                "- **Risk:** "
+                + _safe_text(recommendation.get("risk", "Requires technical validation")),
+                "- **Required validation:** "
+                + _safe_text(recommendation.get("required_validation", "Architecture workshop")),
+                "",
+            ]
+        )
+    return lines
+
+
 def markdown_export(run: Mapping[str, object]) -> str:
     """Build an executive-readable brief from the stored assessment snapshot."""
 
     assessment = run.get("assessment", {})
     assessment = assessment if isinstance(assessment, Mapping) else {}
-    recommendations = assessment.get("recommendations", [])
     lines = [
         "# Enterprise AI Solution Brief",
         "",
@@ -129,35 +159,11 @@ def markdown_export(run: Mapping[str, object]) -> str:
         "## Recommended architecture",
         "",
     ]
-    if isinstance(recommendations, Sequence) and not isinstance(recommendations, (str, bytes)):
-        for recommendation in recommendations:
-            if not isinstance(recommendation, Mapping):
-                continue
-            component = recommendation.get(
-                "recommended_component_or_pattern", recommendation.get("recommendation", "Review")
-            )
-            lines.extend(
-                [
-                    f"### {_safe_text(recommendation.get('layer', 'Solution pattern')).title()}",
-                    "",
-                    "- **Requirement:** "
-                    + _safe_text(recommendation.get("customer_requirement", "Not stated")),
-                    f"- **Rule:** {_safe_text(recommendation.get('rule_triggered', 'Not stated'))}",
-                    f"- **Recommendation:** {_safe_text(component)}",
-                    f"- **Reason:** {_safe_text(recommendation.get('reason', 'Not stated'))}",
-                    "- **Alternative:** "
-                    + _safe_text(recommendation.get("alternative", "Validate during discovery")),
-                    "- **Risk:** "
-                    + _safe_text(recommendation.get("risk", "Requires technical validation")),
-                    "- **Required validation:** "
-                    + _safe_text(
-                        recommendation.get("required_validation", "Architecture workshop")
-                    ),
-                    "",
-                ]
-            )
+    lines.extend(_recommendation_lines(assessment.get("recommendations")))
     lines.extend(["## Primary risks", ""])
     lines.extend(_risk_lines(assessment.get("primary_risks")))
+    lines.extend(["", "## Assumptions", ""])
+    lines.extend(_bullet_lines(assessment.get("assumptions"), "Validate planning assumptions."))
     lines.extend(["", "## Open questions", ""])
     lines.extend(
         _bullet_lines(assessment.get("open_questions"), "Confirm requirements with stakeholders.")
@@ -186,6 +192,35 @@ def markdown_export(run: Mapping[str, object]) -> str:
     return "\n".join(lines)
 
 
+def _validate_svg_tree(root: element_tree.Element) -> None:
+    blocked_elements = {
+        "script", "style", "foreignobject", "iframe", "object", "embed", "image", "set",
+        "animate", "animatemotion", "animatetransform", "discard",
+    }
+
+    def local_name(qualified_name: str) -> str:
+        return qualified_name.rsplit("}", 1)[-1].lower()
+
+    if local_name(root.tag) != "svg":
+        raise ValueError("stored architecture is not SVG")
+    for element in root.iter():
+        if local_name(element.tag) in blocked_elements:
+            raise ValueError("stored architecture SVG contains unsafe content")
+        for attribute, value in element.attrib.items():
+            attribute_name = local_name(attribute)
+            normalized_value = value.strip().lower()
+            has_external_url = (
+                "url(" in normalized_value
+                and re.fullmatch(r"url\(#[a-z0-9_.:-]+\)", normalized_value) is None
+            )
+            if attribute_name.startswith("on") or "javascript:" in normalized_value:
+                raise ValueError("stored architecture SVG contains unsafe content")
+            if has_external_url:
+                raise ValueError("stored architecture SVG contains unsafe content")
+            if attribute_name in {"href", "src"} and not normalized_value.startswith("#"):
+                raise ValueError("stored architecture SVG contains unsafe content")
+
+
 def validate_svg_export(svg: object) -> str:
     """Reject active or externally addressable SVG content before download."""
 
@@ -200,42 +235,5 @@ def validate_svg_export(svg: object) -> str:
         root = element_tree.fromstring(svg)
     except element_tree.ParseError as error:
         raise ValueError("stored architecture SVG is malformed") from error
-
-    def local_name(qualified_name: str) -> str:
-        return qualified_name.rsplit("}", 1)[-1].lower()
-
-    if local_name(root.tag) != "svg":
-        raise ValueError("stored architecture is not SVG")
-    blocked_elements = {
-        "script",
-        "style",
-        "foreignobject",
-        "iframe",
-        "object",
-        "embed",
-        "image",
-        "set",
-        "animate",
-        "animatemotion",
-        "animatetransform",
-        "discard",
-    }
-    for element in root.iter():
-        if local_name(element.tag) in blocked_elements:
-            raise ValueError("stored architecture SVG contains unsafe content")
-        for attribute, value in element.attrib.items():
-            attribute_name = local_name(attribute)
-            normalized_value = value.strip().lower()
-            has_external_url = (
-                "url(" in normalized_value
-                and re.fullmatch(r"url\(#[a-z0-9_.:-]+\)", normalized_value) is None
-            )
-            if (
-                attribute_name.startswith("on")
-                or "javascript:" in normalized_value
-                or has_external_url
-            ):
-                raise ValueError("stored architecture SVG contains unsafe content")
-            if attribute_name in {"href", "src"} and not normalized_value.startswith("#"):
-                raise ValueError("stored architecture SVG contains unsafe content")
+    _validate_svg_tree(root)
     return svg

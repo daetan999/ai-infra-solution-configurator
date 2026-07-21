@@ -30,6 +30,8 @@ def test_real_rules_to_blueprint_to_export_workflow(tmp_path) -> None:
     assert "### Objective" in brief
     assert "### Success criteria" in brief
     assert "### Agenda" in brief
+    assert "## Assumptions" in brief
+    assert "Annual growth" in brief
     assert "{'risk':" not in brief
     assert "{'objective':" not in brief
 
