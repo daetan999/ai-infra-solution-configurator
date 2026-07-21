@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="architecture-title architecture-description" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">
+  <title id="architecture-title">Hybrid Sensitive AI — Fictional Atlas Manufacturing</title>
+  <desc id="architecture-description">Hybrid solution hypothesis for Real Time Inference. Initial solution hypothesis; requires technical validation.</desc>
+  <defs>
+      <marker id="arrow-data-flow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 z" fill="#55706A"/></marker>
+      <marker id="arrow-control" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 z" fill="#9B7A35"/></marker>
+      <marker id="arrow-telemetry" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M 0 0 L 9 4.5 L 0 9 z" fill="#6279A9"/></marker>
+  </defs>
+  <rect width="1440" height="900" fill="#F7FAF9"/>
+  <rect x="28" y="28" width="1384" height="844" rx="24" fill="#FFFFFF" stroke="#DDE7E4"/>
+  <text x="58" y="76" font-size="12" font-weight="700" letter-spacing="1.8" fill="#6D817C">ENTERPRISE AI SOLUTION CONFIGURATOR</text>
+  <text x="58" y="114" font-size="28" font-weight="750" fill="#102E2A">Hybrid Sensitive AI — Fictional Atlas Manufacturing</text>
+  <text x="58" y="143" font-size="14" fill="#60746F">Hybrid solution hypothesis for Real Time Inference.</text>
+  <line x1="58" y1="158" x2="1382" y2="158" stroke="#E4EBE9"/>
+  <text x="58" y="203" font-size="11" font-weight="700" letter-spacing="1.2" fill="#85958F">EXPERIENCE</text>
+  <text x="298" y="203" font-size="11" font-weight="700" letter-spacing="1.2" fill="#85958F">INGRESS</text>
+  <text x="538" y="203" font-size="11" font-weight="700" letter-spacing="1.2" fill="#85958F">AI SERVICES</text>
+  <text x="788" y="203" font-size="11" font-weight="700" letter-spacing="1.2" fill="#85958F">PLATFORM &amp; DATA</text>
+  <text x="1038" y="203" font-size="11" font-weight="700" letter-spacing="1.2" fill="#85958F">COMPUTE &amp; STORAGE</text>
+  <rect x="58" y="610" width="1324" height="174" rx="18" fill="#FBFAF6" stroke="#E8E2CF"/>
+  <text x="80" y="635" font-size="11" font-weight="700" letter-spacing="1.2" fill="#8A7B47">CROSS-CUTTING CONTROLS</text>
+  <g aria-label="Architecture relationships">
+    <g data-edge-kind="data-flow" aria-label="requests">
+      <path d="M 242 305 C 267 305, 267 305, 292 305" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+    </g>
+    <g data-edge-kind="data-flow" aria-label="inference">
+      <path d="M 482 305 C 507 305, 507 308, 532 308" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+    </g>
+    <g data-edge-kind="data-flow" aria-label="workloads">
+      <path d="M 732 308 C 757 308, 757 308, 782 308" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+    </g>
+    <g data-edge-kind="data-flow" aria-label="schedules">
+      <path d="M 982 308 C 1007 308, 1007 308, 1032 308" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+    </g>
+    <g data-edge-kind="data-flow" aria-label="context">
+      <path d="M 482 305 C 632 305, 632 494, 782 494" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+      <rect x="588" y="387" width="88" height="22" rx="11" fill="#FCFDFC" stroke="#DCE4E1"/>
+      <text x="632" y="403" text-anchor="middle" font-size="11" font-weight="600" fill="#4B625D">CONTEXT</text>
+    </g>
+    <g data-edge-kind="data-flow" aria-label="artifacts">
+      <path d="M 982 494 C 1007 494, 1007 494, 1032 494" fill="none" stroke="#55706A" stroke-width="2" marker-end="url(#arrow-data-flow)"/>
+    </g>
+    <g data-edge-kind="control" aria-label="connectivity">
+      <path d="M 262 650 C 262 504, 387 504, 387 358" fill="none" stroke="#9B7A35" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow-control)"/>
+      <rect x="280" y="492" width="88" height="22" rx="11" fill="#FCFDFC" stroke="#DCE4E1"/>
+      <text x="324" y="508" text-anchor="middle" font-size="11" font-weight="600" fill="#4B625D">CONNECTIVITY</text>
+    </g>
+    <g data-edge-kind="control" aria-label="policy">
+      <path d="M 720 650 C 720 600, 882 600, 882 550" fill="none" stroke="#9B7A35" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow-control)"/>
+    </g>
+    <g data-edge-kind="telemetry" aria-label="telemetry">
+      <path d="M 1178 650 C 1178 600, 1142 600, 1142 550" fill="none" stroke="#6279A9" stroke-width="2" stroke-dasharray="7 6" marker-end="url(#arrow-telemetry)"/>
+    </g>
+  </g>
+  <g aria-label="Architecture components">
+    <g data-node-id="applications" data-layer="experience" data-node-kind="actor">
+      <rect x="52" y="252" width="190" height="106" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="52" y="252" width="190" height="106" rx="14" fill="#F2F6F5" stroke="#C7D5D1" stroke-width="1.5"/>
+      <rect x="52" y="252" width="6" height="106" rx="3" fill="#C7D5D1"/>
+      <text font-size="16" font-weight="700" fill="#16312E"><tspan x="70" y="294">Users &amp; applications</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="70" y="329">Approved enterprise consumers</tspan></text>
+    </g>
+    <g data-node-id="api-gateway" data-layer="ingress" data-node-kind="entry-point">
+      <rect x="292" y="252" width="190" height="106" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="292" y="252" width="190" height="106" rx="14" fill="#E9F5F1" stroke="#73A89C" stroke-width="1.5"/>
+      <rect x="292" y="252" width="6" height="106" rx="3" fill="#73A89C"/>
+      <text font-size="16" font-weight="700" fill="#0E4A43"><tspan x="310" y="294">API &amp; policy gateway</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="310" y="329">Authenticated request entry</tspan></text>
+    </g>
+    <g data-node-id="model-serving" data-layer="serving" data-node-kind="service">
+      <rect x="532" y="252" width="200" height="112" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="532" y="252" width="200" height="112" rx="14" fill="#E9F0FF" stroke="#7699D7" stroke-width="1.5"/>
+      <rect x="532" y="252" width="6" height="112" rx="3" fill="#7699D7"/>
+      <text font-size="16" font-weight="700" fill="#183B71"><tspan x="550" y="284">Regional inference</tspan><tspan x="550" y="305">endpoints</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="550" y="335">Versioned inference endpoints</tspan></text>
+    </g>
+    <g data-node-id="runtime" data-layer="platform" data-node-kind="orchestrator">
+      <rect x="782" y="252" width="200" height="112" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="782" y="252" width="200" height="112" rx="14" fill="#F1EEFF" stroke="#9180C5" stroke-width="1.5"/>
+      <rect x="782" y="252" width="6" height="112" rx="3" fill="#9180C5"/>
+      <text font-size="16" font-weight="700" fill="#3D2D72"><tspan x="800" y="284">Federated Kubernetes</tspan><tspan x="800" y="305">runtime</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="800" y="335">Scheduling and workload lifecycle</tspan></text>
+    </g>
+    <g data-node-id="gpu-compute" data-layer="compute" data-node-kind="compute">
+      <rect x="1032" y="252" width="220" height="112" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="1032" y="252" width="220" height="112" rx="14" fill="#FFF0E6" stroke="#D58B5B" stroke-width="1.5"/>
+      <rect x="1032" y="252" width="6" height="112" rx="3" fill="#D58B5B"/>
+      <text font-size="16" font-weight="700" fill="#713719"><tspan x="1050" y="284">Partitioned accelerator</tspan><tspan x="1050" y="305">pools</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="1050" y="335">Isolated execution capacity</tspan></text>
+    </g>
+    <g data-node-id="data-platform" data-layer="data" data-node-kind="data-service">
+      <rect x="782" y="438" width="200" height="112" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="782" y="438" width="200" height="112" rx="14" fill="#EAF6FB" stroke="#72AABD" stroke-width="1.5"/>
+      <rect x="782" y="438" width="6" height="112" rx="3" fill="#72AABD"/>
+      <text font-size="16" font-weight="700" fill="#184E62"><tspan x="800" y="480">Sensitive data boundary</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="800" y="521">Curated and governed data products</tspan></text>
+    </g>
+    <g data-node-id="object-storage" data-layer="storage" data-node-kind="storage">
+      <rect x="1032" y="438" width="220" height="112" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="1032" y="438" width="220" height="112" rx="14" fill="#EEF3F5" stroke="#7895A0" stroke-width="1.5"/>
+      <rect x="1032" y="438" width="6" height="112" rx="3" fill="#7895A0"/>
+      <text font-size="16" font-weight="700" fill="#294853"><tspan x="1050" y="470">Encrypted artifact</tspan><tspan x="1050" y="491">replication</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="1050" y="521">Models, artifacts, and source data</tspan></text>
+    </g>
+    <g data-node-id="network" data-layer="network" data-node-kind="control">
+      <rect x="112" y="650" width="300" height="102" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="112" y="650" width="300" height="102" rx="14" fill="#F7F5EF" stroke="#B5A978" stroke-width="1.5"/>
+      <rect x="112" y="650" width="6" height="102" rx="3" fill="#B5A978"/>
+      <text font-size="16" font-weight="700" fill="#51471D"><tspan x="130" y="682">Private cloud</tspan><tspan x="130" y="703">interconnect</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="130" y="717">Segmentation and controlled</tspan><tspan x="130" y="732">connectivity</tspan></text>
+    </g>
+    <g data-node-id="security" data-layer="security" data-node-kind="control">
+      <rect x="570" y="650" width="300" height="102" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="570" y="650" width="300" height="102" rx="14" fill="#F7F5EF" stroke="#B5A978" stroke-width="1.5"/>
+      <rect x="570" y="650" width="6" height="102" rx="3" fill="#B5A978"/>
+      <text font-size="16" font-weight="700" fill="#51471D"><tspan x="588" y="682">Federated workload</tspan><tspan x="588" y="703">identity</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="588" y="717">Policy, secrets, and workload</tspan><tspan x="588" y="732">identity</tspan></text>
+    </g>
+    <g data-node-id="observability" data-layer="observability" data-node-kind="control">
+      <rect x="1028" y="650" width="300" height="102" rx="14" fill="#0C211F" opacity="0.08" transform="translate(0 4)"/>
+      <rect x="1028" y="650" width="300" height="102" rx="14" fill="#F7F5EF" stroke="#B5A978" stroke-width="1.5"/>
+      <rect x="1028" y="650" width="6" height="102" rx="3" fill="#B5A978"/>
+      <text font-size="16" font-weight="700" fill="#51471D"><tspan x="1046" y="682">Cross-environment</tspan><tspan x="1046" y="703">telemetry</tspan></text>
+      <text font-size="10.5" fill="#5C706C"><tspan x="1046" y="717">Metrics, logs, traces, and model</tspan><tspan x="1046" y="732">signals</tspan></text>
+    </g>
+  </g>
+  <rect x="58" y="816" width="1324" height="34" rx="10" fill="#EAF3F0"/>
+  <text x="720" y="838" text-anchor="middle" font-size="12" font-weight="700" letter-spacing="0.8" fill="#315A53">INITIAL SOLUTION HYPOTHESIS · REQUIRES TECHNICAL VALIDATION</text>
+</svg>
