@@ -1,0 +1,628 @@
+# Instincts generated from https://github.com/daetan999/ai-infra-solution-configurator
+# Generated: 2026-07-21T04:57:43.633Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: ai-infra-solution-configurator-commit-conventional
+trigger: "when writing a commit message"
+confidence: 0.85
+domain: git
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Commit Conventional
+
+## Action
+
+Use conventional commit format with prefixes: test, docs, fix, feat, style
+
+## Evidence
+
+- 30 commits analyzed
+- Detected conventional commit pattern
+- Examples: test: define configurator rules engine contract, feat: generate controlled solution architecture diagrams
+
+---
+id: ai-infra-solution-configurator-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Commit Length
+
+## Action
+
+Keep commit messages concise (~46 characters)
+
+## Evidence
+
+- Average commit message length: 46 chars
+- Based on 30 commits
+
+---
+id: ai-infra-solution-configurator-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: ai-infra-solution-configurator-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: ai-infra-solution-configurator-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: ai-infra-solution-configurator-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: ai-infra-solution-configurator-test-naming
+trigger: "when creating a test file"
+confidence: 0.85
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Test Naming
+
+## Action
+
+Name test files using the pattern: *.test.ts
+
+## Evidence
+
+- File pattern: *.test.ts
+- Consistent across test files
+
+---
+id: ai-infra-solution-configurator-test-types
+trigger: "when planning tests for a feature"
+confidence: 0.7
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Test Types
+
+## Action
+
+Write unit, integration, e2e tests to match project standards
+
+## Evidence
+
+- Test types detected: unit, integration, e2e
+- Coverage config: no
+
+---
+id: ai-infra-solution-configurator-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.8
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~6x per month
+- Files: **/*.test.*, **/api/**
+
+---
+id: ai-infra-solution-configurator-workflow-implement-or-update-core-feature-with-tests
+trigger: "when doing implement or update core feature with tests"
+confidence: 0.75
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Implement Or Update Core Feature With Tests
+
+## Action
+
+Follow the implement-or-update-core-feature-with-tests workflow:
+1. Edit or create files in app/ (such as engine.py, rules.py, architecture.py, diagram.py, etc.)
+2. Edit or create corresponding test files in tests/ (such as test_engine.py, test_rules.py, test_diagram.py, test_api.py, etc.)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~5x per month
+- Files: app/engine.py, app/rules.py, app/architecture.py
+
+---
+id: ai-infra-solution-configurator-workflow-document-feature-or-verification-evidence
+trigger: "when doing document feature or verification evidence"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Document Feature Or Verification Evidence
+
+## Action
+
+Follow the document-feature-or-verification-evidence workflow:
+1. Edit or create markdown documentation in docs/ (such as docs/testing/*.md, docs/architecture.md, docs/rules-and-guardrails.md)
+2. Optionally add or update assets in docs/assets/
+3. Optionally update README.md
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: docs/testing/configurator-engine.tdd.md, docs/testing/configurator-diagram.tdd.md, docs/testing/configurator-api.tdd.md
+
+---
+id: ai-infra-solution-configurator-workflow-fix-or-harden-existing-feature
+trigger: "when doing fix or harden existing feature"
+confidence: 0.7
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Fix Or Harden Existing Feature
+
+## Action
+
+Follow the fix-or-harden-existing-feature workflow:
+1. Edit files in app/ (such as rules.py, engine.py, exports.py, schemas.py, main.py)
+2. Optionally update related test files in tests/
+3. Optionally update static/ or templates/ for UI fixes
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~4x per month
+- Files: app/rules.py, app/engine.py, app/exports.py
+
+---
+id: ai-infra-solution-configurator-workflow-update-or-add-interface-assets-and-contract-tests
+trigger: "when doing update or add interface assets and contract tests"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Update Or Add Interface Assets And Contract Tests
+
+## Action
+
+Follow the update-or-add-interface-assets-and-contract-tests workflow:
+1. Edit or add files in static/ (app.js, styles.css, favicon.svg, workflow.css)
+2. Edit or add files in templates/ (index.html)
+3. Edit or add interface contract tests in tests/test_interface_contract.py
+4. Optionally update docs/assets/ with new UI diagrams
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: static/app.js, static/styles.css, static/workflow.css
+
+---
+id: ai-infra-solution-configurator-workflow-add-or-update-end-to-end-browser-tests
+trigger: "when doing add or update end to end browser tests"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Workflow Add Or Update End To End Browser Tests
+
+## Action
+
+Follow the add-or-update-end-to-end-browser-tests workflow:
+1. Edit or add tests in tests/e2e/ (such as configurator.spec.mjs)
+2. Edit or add Playwright config (playwright.config.mjs)
+3. Update package.json and package-lock.json if dependencies change
+4. Optionally update CI workflow (.github/workflows/ci.yml), Makefile, or .gitignore
+5. Optionally update related documentation (docs/testing/browser-qa.md)
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: tests/e2e/configurator.spec.mjs, playwright.config.mjs, package.json
+
+---
+id: ai-infra-solution-configurator-instinct-file-naming
+trigger: "When creating or renaming a file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct File Naming
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- Consistent file naming in app/ and tests/
+
+---
+id: ai-infra-solution-configurator-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: ai-infra-solution-configurator-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: ai-infra-solution-configurator-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constants
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: ai-infra-solution-configurator-instinct-import-style
+trigger: "When importing modules in Python files"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Import Style
+
+## Action
+
+Use relative imports
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: ai-infra-solution-configurator-instinct-export-style
+trigger: "When exporting modules or functions"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Export Style
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: ai-infra-solution-configurator-instinct-test-file-pattern
+trigger: "When creating a test file"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Test File Pattern
+
+## Action
+
+Name the file using the pattern *.test.ts
+
+## Evidence
+
+- Pattern in testing.filePattern
+- Examples: tests/test_engine.py, tests/test_rules.py
+
+---
+id: ai-infra-solution-configurator-instinct-test-types
+trigger: "When planning tests for a feature"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Test Types
+
+## Action
+
+Include unit, integration, and e2e tests as appropriate
+
+## Evidence
+
+- Pattern in testing.testTypes
+- Presence of tests/test_integration_workflow.py and tests/e2e/
+
+---
+id: ai-infra-solution-configurator-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.9
+domain: testing
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Test Location
+
+## Action
+
+Place test files in the separate tests/ directory
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+- Examples: tests/test_engine.py
+
+---
+id: ai-infra-solution-configurator-instinct-commit-format
+trigger: "When making a git commit"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Commit Format
+
+## Action
+
+Use conventional commit prefixes: test, docs, fix, feat, style, refactor, chore
+
+## Evidence
+
+- Pattern in commits.prefixes
+- Examples: 'feat: generate controlled solution architecture diagrams'
+
+---
+id: ai-infra-solution-configurator-instinct-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Commit Length
+
+## Action
+
+Keep the commit message around 46 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: ai-infra-solution-configurator-instinct-implement-feature-with-tests
+trigger: "When adding or modifying a core feature (engine, rules, API, diagram, etc.)"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Implement Feature With Tests
+
+## Action
+
+Edit or create files in app/ and corresponding test files in tests/
+
+## Evidence
+
+- Workflow: implement-or-update-core-feature-with-tests
+- Files: app/engine.py, tests/test_engine.py
+- Commit examples: 'feat: generate controlled solution architecture diagrams'
+
+---
+id: ai-infra-solution-configurator-instinct-document-feature-evidence
+trigger: "When documenting a new feature, test evidence, or architectural change"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Document Feature Evidence
+
+## Action
+
+Edit or create markdown documentation in docs/, optionally update assets in docs/assets/ and README.md
+
+## Evidence
+
+- Workflow: document-feature-or-verification-evidence
+- Files: docs/testing/configurator-engine.tdd.md, docs/assets/*.svg
+
+---
+id: ai-infra-solution-configurator-instinct-fix-or-harden-feature
+trigger: "When fixing a bug or improving robustness of an existing feature"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Fix Or Harden Feature
+
+## Action
+
+Edit files in app/, optionally update related test files in tests/ and static/ or templates/ for UI fixes
+
+## Evidence
+
+- Workflow: fix-or-harden-existing-feature
+- Files: app/rules.py, tests/test_rules.py, static/app.js
+
+---
+id: ai-infra-solution-configurator-instinct-update-interface-assets-contract-tests
+trigger: "When changing the frontend interface or its contract"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Update Interface Assets Contract Tests
+
+## Action
+
+Edit or add files in static/, templates/, tests/test_interface_contract.py, and optionally update docs/assets/
+
+## Evidence
+
+- Workflow: update-or-add-interface-assets-and-contract-tests
+- Files: static/app.js, tests/test_interface_contract.py, docs/assets/configuration-workflow.svg
+
+---
+id: ai-infra-solution-configurator-instinct-add-update-e2e-tests
+trigger: "When automating browser journeys or updating E2E test coverage"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: daetan999/ai-infra-solution-configurator
+---
+
+# Ai Infra Solution Configurator Instinct Add Update E2e Tests
+
+## Action
+
+Edit or add tests in tests/e2e/, update Playwright config, update package.json/package-lock.json as needed, and optionally update CI workflow and documentation
+
+## Evidence
+
+- Workflow: add-or-update-end-to-end-browser-tests
+- Files: tests/e2e/configurator.spec.mjs, playwright.config.mjs, docs/testing/browser-qa.md
+
