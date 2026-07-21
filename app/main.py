@@ -85,7 +85,11 @@ def create_app(
     """Create an app with an injectable repository for isolated tests and deployments."""
 
     repo = repository or ScenarioRepository(
-        database_path=os.getenv("CONFIGURATOR_DATABASE_PATH", "data/configurator.db")
+        database_path=(
+            os.getenv("CONFIGURATOR_DB")
+            or os.getenv("CONFIGURATOR_DATABASE_PATH")
+            or "data/configurator.db"
+        )
     )
     application = FastAPI(
         title="Enterprise AI Solution Configurator",

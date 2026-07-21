@@ -1,5 +1,8 @@
 from __future__ import annotations
 
+from pathlib import Path
+
+import pytest
 from fastapi.testclient import TestClient
 
 from app.main import create_app
@@ -106,3 +109,16 @@ def test_unexpected_errors_do_not_leak_exception_details() -> None:
         "message": "The request could not be completed.",
     }
     assert "super-secret" not in response.text
+
+
+def test_create_app_uses_the_documented_database_environment_variable(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    database = tmp_path / "documented-configurator.db"
+    monkeypatch.setenv("CONFIGURATOR_DB", str(database))
+
+    application = create_app(seed_demos=False)
+    application.state.repository.close()
+
+    assert database.is_file()

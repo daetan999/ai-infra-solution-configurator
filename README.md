@@ -123,7 +123,7 @@ Responses use `{success, data, error, meta}` envelopes. Downloads return their n
 | `GET` | `/api/scenarios/{id}/diagram.svg` | Download the latest architecture |
 | `GET` | `/api/scenarios/{id}/export?format=json\|markdown` | Export the latest solution brief |
 
-Interactive API documentation is available at `/docs` while the application is running.
+Interactive API documentation is available at `/api/docs` while the application is running.
 
 ## Verification
 
