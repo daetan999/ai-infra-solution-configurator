@@ -173,6 +173,9 @@ a:focus-visible {
   box-shadow: 0 0 0 5px rgb(79 225 193 / 10%);
 }
 
+.engine-status.is-degraded { color: #ffc7cd; }
+.engine-status.is-degraded i { background: var(--red); box-shadow: 0 0 0 5px rgb(255 122 134 / 10%); }
+
 .button {
   min-height: 42px;
   border: 1px solid var(--line-bright);

@@ -23,7 +23,7 @@
         </span>
       </a>
       <div class="topbar-actions">
-        <span class="engine-status"><i aria-hidden="true"></i> Rules engine online</span>
+        <span id="engine-status" class="engine-status" role="status"><i aria-hidden="true"></i><span id="engine-status-label">Checking rules engine…</span></span>
         <button class="button button-quiet" id="new-scenario" type="button">
           <span aria-hidden="true">＋</span> New scenario
         </button>
@@ -72,11 +72,11 @@
 
         <section id="requirements-view" class="view-panel" role="tabpanel" aria-labelledby="requirements-tab">
           <nav class="stage-navigation" aria-label="Requirement stages">
-            <button class="stage-tab" data-stage="1" type="button" aria-current="step"><span>01</span><b>Intent</b><small>Workload</small></button>
-            <button class="stage-tab" data-stage="2" type="button"><span>02</span><b>Service targets</b><small>SLOs</small></button>
-            <button class="stage-tab" data-stage="3" type="button"><span>03</span><b>Placement &amp; data</b><small>Boundaries</small></button>
-            <button class="stage-tab" data-stage="4" type="button"><span>04</span><b>Operations</b><small>Run model</small></button>
-            <button class="stage-tab" data-stage="5" type="button"><span>05</span><b>Constraints</b><small>Commit</small></button>
+            <button class="stage-tab" data-stage="1" type="button" aria-current="step" aria-label="Stage 1: Intent"><span>01</span><b>Intent</b><small>Workload</small></button>
+            <button class="stage-tab" data-stage="2" type="button" aria-label="Stage 2: Service targets"><span>02</span><b>Service targets</b><small>SLOs</small></button>
+            <button class="stage-tab" data-stage="3" type="button" aria-label="Stage 3: Placement and data"><span>03</span><b>Placement &amp; data</b><small>Boundaries</small></button>
+            <button class="stage-tab" data-stage="4" type="button" aria-label="Stage 4: Operations"><span>04</span><b>Operations</b><small>Run model</small></button>
+            <button class="stage-tab" data-stage="5" type="button" aria-label="Stage 5: Constraints"><span>05</span><b>Constraints</b><small>Commit</small></button>
           </nav>
 
           <form id="configurator-form" aria-describedby="recommendation-disclaimer">
@@ -336,13 +336,13 @@
               <section class="solution-card">
                 <p class="eyebrow">Challenge the hypothesis</p><h4>Risks, assumptions &amp; alternatives</h4>
                 <div class="insight-tabs" role="tablist" aria-label="Solution caveats">
-                  <button class="insight-tab is-active" type="button" role="tab" data-insight="solution-risks" aria-selected="true">Risks</button>
-                  <button class="insight-tab" type="button" role="tab" data-insight="solution-assumptions" aria-selected="false">Assumptions</button>
-                  <button class="insight-tab" type="button" role="tab" data-insight="solution-alternatives" aria-selected="false">Alternatives</button>
+                  <button class="insight-tab is-active" id="risks-tab" type="button" role="tab" data-insight="solution-risks" aria-selected="true" aria-controls="solution-risks">Risks</button>
+                  <button class="insight-tab" id="assumptions-tab" type="button" role="tab" data-insight="solution-assumptions" aria-selected="false" aria-controls="solution-assumptions" tabindex="-1">Assumptions</button>
+                  <button class="insight-tab" id="alternatives-tab" type="button" role="tab" data-insight="solution-alternatives" aria-selected="false" aria-controls="solution-alternatives" tabindex="-1">Alternatives</button>
                 </div>
-                <ul id="solution-risks" class="insight-list"></ul>
-                <ul id="solution-assumptions" class="insight-list" hidden></ul>
-                <ul id="solution-alternatives" class="insight-list" hidden></ul>
+                <ul id="solution-risks" class="insight-list" role="tabpanel" aria-labelledby="risks-tab"></ul>
+                <ul id="solution-assumptions" class="insight-list" role="tabpanel" aria-labelledby="assumptions-tab" hidden></ul>
+                <ul id="solution-alternatives" class="insight-list" role="tabpanel" aria-labelledby="alternatives-tab" hidden></ul>
               </section>
 
               <section class="solution-card action-card" id="poc-recommendation">

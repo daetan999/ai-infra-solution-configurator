@@ -87,9 +87,46 @@ def test_accessibility_and_responsive_behaviour_are_explicit() -> None:
     assert 'href="#workspace"' in html
     assert 'aria-live="polite"' in html
     assert 'aria-describedby="recommendation-disclaimer"' in html
+    assert 'id="engine-status-label"' in html
+    assert 'aria-controls="solution-assumptions"' in html
+    assert 'aria-labelledby="assumptions-tab"' in html
     assert "@media (max-width: 760px)" in css
     assert "prefers-reduced-motion: reduce" in css
     assert ":focus-visible" in css
+
+
+def test_wizard_validation_health_and_tab_keyboard_behaviour_are_bound() -> None:
+    script = _read(SCRIPT)
+
+    assert "findFirstInvalidStage" in script
+    assert "navigateToStage" in script
+    assert "checkHealth" in script
+    assert 'case "ArrowRight"' in script
+    assert 'case "ArrowLeft"' in script
+
+
+def test_scenario_switching_preserves_update_target_and_unsaved_drafts() -> None:
+    script = _read(SCRIPT)
+    selection = script[
+        script.index("async function selectScenario") : script.index("function setStage")
+    ]
+
+    assert selection.index("await apiFetch") < selection.index(
+        "state.activeScenarioId = bundle.scenario.id"
+    )
+    assert "state.dirty" in script
+    assert "window.confirm" in script
+    assert "Discard unsaved changes" in script
+
+
+def test_compact_stage_navigation_retains_accessible_names() -> None:
+    html = _read(TEMPLATE)
+
+    for stage, label in enumerate(
+        ("Intent", "Service targets", "Placement and data", "Operations", "Constraints"),
+        start=1,
+    ):
+        assert f'aria-label="Stage {stage}: {label}"' in html
 
 
 def test_documentation_assets_are_original_accessible_svg() -> None:

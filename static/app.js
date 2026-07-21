@@ -42,6 +42,7 @@ const state = {
   activeScenarioId: null,
   activeScenario: null,
   activeRun: null,
+  dirty: false,
   controllers: new Map(),
   toastTimer: null,
 };
@@ -61,6 +62,8 @@ const elements = {
   solutionTab: document.querySelector("#solution-tab"),
   solutionEmpty: document.querySelector("#solution-empty"),
   solutionContent: document.querySelector("#solution-content"),
+  engineStatus: document.querySelector("#engine-status"),
+  engineStatusLabel: document.querySelector("#engine-status-label"),
   toast: document.querySelector("#toast"),
 };
 
@@ -162,6 +165,22 @@ async function apiFetch(path, options = {}, requestKey = path) {
   }
 }
 
+function setEngineStatus(online) {
+  elements.engineStatus.classList.toggle("is-degraded", !online);
+  elements.engineStatusLabel.textContent = online ? "Rules engine online" : "Rules engine unavailable";
+}
+
+async function checkHealth() {
+  try {
+    const health = await apiFetch("/api/health", {}, "health");
+    setEngineStatus(health?.status === "ok");
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      setEngineStatus(false);
+    }
+  }
+}
+
 function scenarioCollection(data) {
   if (Array.isArray(data)) {
     return data;
@@ -242,14 +261,18 @@ function setFormValues(scenario) {
 }
 
 async function selectScenario(id) {
-  state.activeScenarioId = id;
-  renderScenarioRail();
+  if (!canDiscardDraft()) {
+    return;
+  }
   setSaveState("Loading scenario…");
   try {
     const data = await apiFetch(`${API_ROOT}/${encodeURIComponent(id)}`, {}, "scenario-detail");
     const bundle = scenarioBundle(data);
+    state.activeScenarioId = bundle.scenario.id;
     state.activeScenario = bundle.scenario;
     state.activeRun = bundle.run;
+    state.dirty = false;
+    renderScenarioRail();
     setFormValues(bundle.scenario);
     renderSolution(bundle.scenario, bundle.run);
     setSaveState(`Saved · version ${bundle.scenario.version || 1}`);
@@ -292,20 +315,56 @@ function setStage(nextStage, focusHeading = true) {
   }
 }
 
-function currentStageIsValid() {
-  const panel = document.querySelector(`[data-stage-panel="${state.stage}"]`);
+function stageValidation(stage) {
+  const panel = document.querySelector(`[data-stage-panel="${stage}"]`);
   const controls = Array.from(panel.querySelectorAll("input, select, textarea"));
   for (const control of controls) {
     if (!control.checkValidity()) {
-      control.reportValidity();
+      return { stage, control, message: null };
+    }
+  }
+  if (stage === 4 && elements.form.querySelectorAll('input[name="security_requirements"]:checked').length === 0) {
+    return {
+      stage,
+      control: elements.form.querySelector('input[name="security_requirements"]'),
+      message: "Select at least one security requirement.",
+    };
+  }
+  return null;
+}
+
+function revealValidation(validation) {
+  setStage(validation.stage, false);
+  window.requestAnimationFrame(() => {
+    if (validation.message) {
+      showToast(validation.message, true);
+      validation.control.focus();
+    } else {
+      validation.control.reportValidity();
+    }
+  });
+}
+
+function findFirstInvalidStage(start = 1, end = 5) {
+  for (let stage = start; stage <= end; stage += 1) {
+    const validation = stageValidation(stage);
+    if (validation) {
+      return validation;
+    }
+  }
+  return null;
+}
+
+function navigateToStage(targetStage) {
+  const target = Math.min(5, Math.max(1, targetStage));
+  if (target > state.stage) {
+    const validation = findFirstInvalidStage(state.stage, target - 1);
+    if (validation) {
+      revealValidation(validation);
       return false;
     }
   }
-  if (state.stage === 4 && elements.form.querySelectorAll('input[name="security_requirements"]:checked').length === 0) {
-    showToast("Select at least one security requirement.", true);
-    elements.form.querySelector('input[name="security_requirements"]').focus();
-    return false;
-  }
+  setStage(target);
   return true;
 }
 
@@ -343,6 +402,8 @@ function switchView(view) {
   elements.solutionTab.classList.toggle("is-active", showSolution);
   elements.requirementsTab.setAttribute("aria-selected", String(!showSolution));
   elements.solutionTab.setAttribute("aria-selected", String(showSolution));
+  elements.requirementsTab.tabIndex = showSolution ? -1 : 0;
+  elements.solutionTab.tabIndex = showSolution && !elements.solutionTab.disabled ? 0 : -1;
   const heading = showSolution
     ? elements.solutionContent.querySelector("h3") || elements.solutionEmpty.querySelector("h3")
     : document.querySelector("#stage-title");
@@ -460,6 +521,8 @@ function renderSolution(scenario, run) {
   elements.solutionEmpty.hidden = hasSolution;
   elements.solutionContent.hidden = !hasSolution;
   elements.solutionTab.disabled = !hasSolution;
+  elements.solutionTab.tabIndex = hasSolution
+    && elements.solutionTab.getAttribute("aria-selected") === "true" ? 0 : -1;
   if (!hasSolution) {
     return;
   }
@@ -480,7 +543,10 @@ function renderSolution(scenario, run) {
 
 async function saveScenario(event) {
   event.preventDefault();
-  if (!elements.form.reportValidity() || !currentStageIsValid()) {
+  const validation = findFirstInvalidStage();
+  if (validation) {
+    switchView("requirements");
+    revealValidation(validation);
     return;
   }
   const updating = state.activeScenarioId !== null;
@@ -496,6 +562,7 @@ async function saveScenario(event) {
     state.activeScenario = bundle.scenario;
     state.activeRun = bundle.run;
     state.activeScenarioId = bundle.scenario.id;
+    state.dirty = false;
     renderSolution(bundle.scenario, bundle.run);
     await loadScenarios(false);
     setSaveState(`Saved · version ${bundle.scenario.version || 1}`);
@@ -511,10 +578,18 @@ async function saveScenario(event) {
   }
 }
 
+function canDiscardDraft() {
+  return !state.dirty || window.confirm("Discard unsaved changes to this scenario?");
+}
+
 function startNewScenario() {
+  if (!canDiscardDraft()) {
+    return;
+  }
   state.activeScenarioId = null;
   state.activeScenario = null;
   state.activeRun = null;
+  state.dirty = false;
   elements.form.reset();
   elements.form.elements.model_size_billion.value = "13";
   elements.form.elements.latency_target_ms.value = "800";
@@ -564,13 +639,12 @@ async function downloadExport(format) {
 }
 
 elements.previous.addEventListener("click", () => setStage(state.stage - 1));
-elements.next.addEventListener("click", () => {
-  if (currentStageIsValid()) {
-    setStage(state.stage + 1);
-  }
-});
+elements.next.addEventListener("click", () => navigateToStage(state.stage + 1));
 elements.form.addEventListener("submit", saveScenario);
-elements.form.addEventListener("input", () => setSaveState("Unsaved changes"));
+elements.form.addEventListener("input", () => {
+  state.dirty = true;
+  setSaveState("Unsaved changes");
+});
 document.querySelector("#refresh-summary").addEventListener("click", renderRequirementSummary);
 document.querySelector("#new-scenario").addEventListener("click", startNewScenario);
 document.querySelector("#return-to-requirements").addEventListener("click", () => switchView("requirements"));
@@ -578,24 +652,72 @@ elements.requirementsTab.addEventListener("click", () => switchView("requirement
 elements.solutionTab.addEventListener("click", () => switchView("solution"));
 
 document.querySelectorAll(".stage-tab").forEach((tab) => {
-  tab.addEventListener("click", () => setStage(Number(tab.dataset.stage)));
+  tab.addEventListener("click", () => navigateToStage(Number(tab.dataset.stage)));
 });
 
 document.querySelectorAll(".export-button").forEach((button) => {
   button.addEventListener("click", () => downloadExport(button.dataset.exportFormat));
 });
 
-document.querySelectorAll(".insight-tab").forEach((tab) => {
-  tab.addEventListener("click", () => {
-    document.querySelectorAll(".insight-tab").forEach((item) => {
-      const active = item === tab;
-      item.classList.toggle("is-active", active);
-      item.setAttribute("aria-selected", String(active));
-    });
-    document.querySelectorAll(".insight-list").forEach((panel) => {
-      panel.hidden = panel.id !== tab.dataset.insight;
-    });
+function activateInsightTab(tab, focus = false) {
+  document.querySelectorAll(".insight-tab").forEach((item) => {
+    const active = item === tab;
+    item.classList.toggle("is-active", active);
+    item.setAttribute("aria-selected", String(active));
+    item.tabIndex = active ? 0 : -1;
+  });
+  document.querySelectorAll(".insight-list").forEach((panel) => {
+    panel.hidden = panel.id !== tab.dataset.insight;
+  });
+  if (focus) {
+    tab.focus();
+  }
+}
+
+function nextTabForKey(event, tabs) {
+  const current = tabs.indexOf(event.currentTarget);
+  let next = current;
+  switch (event.key) {
+    case "ArrowRight":
+      next = (current + 1) % tabs.length;
+      break;
+    case "ArrowLeft":
+      next = (current - 1 + tabs.length) % tabs.length;
+      break;
+    case "Home":
+      next = 0;
+      break;
+    case "End":
+      next = tabs.length - 1;
+      break;
+    default:
+      return null;
+  }
+  event.preventDefault();
+  return tabs[next];
+}
+
+const insightTabs = Array.from(document.querySelectorAll(".insight-tab"));
+insightTabs.forEach((tab) => {
+  tab.addEventListener("click", () => activateInsightTab(tab));
+  tab.addEventListener("keydown", (event) => {
+    const target = nextTabForKey(event, insightTabs);
+    if (target) {
+      activateInsightTab(target, true);
+    }
   });
 });
 
+const modeTabs = [elements.requirementsTab, elements.solutionTab];
+modeTabs.forEach((tab) => {
+  tab.addEventListener("keydown", (event) => {
+    const available = modeTabs.filter((item) => !item.disabled);
+    const target = nextTabForKey(event, available);
+    if (target) {
+      switchView(target === elements.solutionTab ? "solution" : "requirements");
+    }
+  });
+});
+
+checkHealth();
 loadScenarios();
