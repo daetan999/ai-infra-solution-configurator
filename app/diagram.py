@@ -198,6 +198,73 @@ def _render_control_heading() -> str:
     )
 
 
+def _marker_markup() -> str:
+    return "\n".join(
+        (
+            f'      <marker id="arrow-{kind.value}" markerWidth="9" markerHeight="9" '
+            'refX="8" refY="4.5" orient="auto">'
+            f'<path d="M 0 0 L 9 4.5 L 0 9 z" fill="{_EDGE_COLORS[kind]}"/></marker>'
+        )
+        for kind in EdgeKind
+    )
+
+
+def _document_header(title: str, description: str) -> tuple[str, ...]:
+    return (
+        (
+            f'<svg xmlns="http://www.w3.org/2000/svg" width="{_CANVAS_WIDTH}" '
+            f'height="{_CANVAS_HEIGHT}" viewBox="0 0 {_CANVAS_WIDTH} {_CANVAS_HEIGHT}" '
+            'role="img" aria-labelledby="architecture-title architecture-description" '
+            'font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">'
+        ),
+        f'  <title id="architecture-title">{title}</title>',
+        (
+            f'  <desc id="architecture-description">{description} '
+            "Initial solution hypothesis; requires technical validation.</desc>"
+        ),
+        "  <defs>",
+        _marker_markup(),
+        "  </defs>",
+    )
+
+
+def _document_body(title: str, description: str, edges: str, nodes: str) -> tuple[str, ...]:
+    return (
+        f'  <rect width="{_CANVAS_WIDTH}" height="{_CANVAS_HEIGHT}" fill="#F7FAF9"/>',
+        '  <rect x="28" y="28" width="1384" height="844" rx="24" fill="#FFFFFF" stroke="#DDE7E4"/>',
+        (
+            '  <text x="58" y="76" font-size="12" font-weight="700" '
+            'letter-spacing="1.8" fill="#6D817C">ENTERPRISE AI SOLUTION CONFIGURATOR</text>'
+        ),
+        f'  <text x="58" y="114" font-size="28" font-weight="750" fill="#102E2A">{title}</text>',
+        f'  <text x="58" y="143" font-size="14" fill="#60746F">{description}</text>',
+        '  <line x1="58" y1="158" x2="1382" y2="158" stroke="#E4EBE9"/>',
+        _render_layer_heading(58, "EXPERIENCE"),
+        _render_layer_heading(298, "INGRESS"),
+        _render_layer_heading(538, "AI SERVICES"),
+        _render_layer_heading(788, "PLATFORM &amp; DATA"),
+        _render_layer_heading(1038, "COMPUTE &amp; STORAGE"),
+        (
+            '  <rect x="58" y="610" width="1324" height="174" rx="18" '
+            'fill="#FBFAF6" stroke="#E8E2CF"/>'
+        ),
+        _render_control_heading(),
+        '  <g aria-label="Architecture relationships">',
+        edges,
+        "  </g>",
+        '  <g aria-label="Architecture components">',
+        nodes,
+        "  </g>",
+        '  <rect x="58" y="816" width="1324" height="34" rx="10" fill="#EAF3F0"/>',
+        (
+            '  <text x="720" y="838" text-anchor="middle" font-size="12" '
+            'font-weight="700" letter-spacing="0.8" fill="#315A53">'
+            "INITIAL SOLUTION HYPOTHESIS · REQUIRES TECHNICAL VALIDATION</text>"
+        ),
+        "</svg>",
+    )
+
+
 def render_architecture_svg(blueprint: ArchitectureBlueprint) -> str:
     """Render an inert, accessible SVG on a fixed presentation canvas."""
 
@@ -211,70 +278,10 @@ def render_architecture_svg(blueprint: ArchitectureBlueprint) -> str:
     node_markup = "\n".join(_render_node(node) for node in blueprint.nodes)
     title = _xml_text(blueprint.title)
     description = _xml_text(blueprint.description)
-    markers = "\n".join(
-        (
-            f'      <marker id="arrow-{kind.value}" markerWidth="9" markerHeight="9" '
-            'refX="8" refY="4.5" orient="auto">'
-            f'<path d="M 0 0 L 9 4.5 L 0 9 z" fill="{_EDGE_COLORS[kind]}"/></marker>'
-        )
-        for kind in EdgeKind
-    )
-
     return "\n".join(
         (
-            (
-                f'<svg xmlns="http://www.w3.org/2000/svg" width="{_CANVAS_WIDTH}" '
-                f'height="{_CANVAS_HEIGHT}" viewBox="0 0 {_CANVAS_WIDTH} {_CANVAS_HEIGHT}" '
-                'role="img" aria-labelledby="architecture-title architecture-description" '
-                'font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif">'
-            ),
-            f'  <title id="architecture-title">{title}</title>',
-            (
-                f'  <desc id="architecture-description">{description} '
-                "Initial solution hypothesis; requires technical validation.</desc>"
-            ),
-            "  <defs>",
-            markers,
-            "  </defs>",
-            f'  <rect width="{_CANVAS_WIDTH}" height="{_CANVAS_HEIGHT}" fill="#F7FAF9"/>',
-            (
-                '  <rect x="28" y="28" width="1384" height="844" rx="24" '
-                'fill="#FFFFFF" stroke="#DDE7E4"/>'
-            ),
-            (
-                '  <text x="58" y="76" font-size="12" font-weight="700" '
-                'letter-spacing="1.8" fill="#6D817C">'
-                "ENTERPRISE AI SOLUTION CONFIGURATOR</text>"
-            ),
-            (
-                f'  <text x="58" y="114" font-size="28" font-weight="750" '
-                f'fill="#102E2A">{title}</text>'
-            ),
-            f'  <text x="58" y="143" font-size="14" fill="#60746F">{description}</text>',
-            '  <line x1="58" y1="158" x2="1382" y2="158" stroke="#E4EBE9"/>',
-            _render_layer_heading(58, "EXPERIENCE"),
-            _render_layer_heading(298, "INGRESS"),
-            _render_layer_heading(538, "AI SERVICES"),
-            _render_layer_heading(788, "PLATFORM &amp; DATA"),
-            _render_layer_heading(1038, "COMPUTE &amp; STORAGE"),
-            (
-                '  <rect x="58" y="610" width="1324" height="174" rx="18" '
-                'fill="#FBFAF6" stroke="#E8E2CF"/>'
-            ),
-            _render_control_heading(),
-            '  <g aria-label="Architecture relationships">',
-            edge_markup,
-            "  </g>",
-            '  <g aria-label="Architecture components">',
-            node_markup,
-            "  </g>",
-            '  <rect x="58" y="816" width="1324" height="34" rx="10" fill="#EAF3F0"/>',
-            (
-                '  <text x="720" y="838" text-anchor="middle" font-size="12" '
-                'font-weight="700" letter-spacing="0.8" fill="#315A53">'
-                "INITIAL SOLUTION HYPOTHESIS · REQUIRES TECHNICAL VALIDATION</text>"
-            ),
-            "</svg>",
+            *_document_header(title, description),
+            *_document_body(title, description, edge_markup, node_markup),
         )
     )
 

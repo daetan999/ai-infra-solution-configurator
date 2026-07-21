@@ -36,16 +36,20 @@ const summaryFields = [
   ["Operating model", "team_operating_model"],
 ];
 
-const state = {
+let state = Object.freeze({
   stage: 1,
-  scenarios: [],
+  scenarios: Object.freeze([]),
   activeScenarioId: null,
   activeScenario: null,
   activeRun: null,
   dirty: false,
   controllers: new Map(),
   toastTimer: null,
-};
+});
+
+function updateState(patch) {
+  state = Object.freeze({ ...state, ...patch });
+}
 
 const elements = {
   form: document.querySelector("#configurator-form"),
@@ -115,9 +119,10 @@ function showToast(message, isError = false) {
   elements.toast.textContent = message;
   elements.toast.classList.toggle("is-error", isError);
   elements.toast.hidden = false;
-  state.toastTimer = window.setTimeout(() => {
+  const toastTimer = window.setTimeout(() => {
     elements.toast.hidden = true;
   }, 4200);
+  updateState({ toastTimer });
 }
 
 function setSaveState(message, isError = false) {
@@ -142,7 +147,7 @@ async function apiFetch(path, options = {}, requestKey = path) {
     existing.abort();
   }
   const controller = new AbortController();
-  state.controllers.set(requestKey, controller);
+  updateState({ controllers: new Map([...state.controllers, [requestKey, controller]]) });
   try {
     const response = await fetch(path, {
       ...options,
@@ -160,7 +165,9 @@ async function apiFetch(path, options = {}, requestKey = path) {
     return payload.data;
   } finally {
     if (state.controllers.get(requestKey) === controller) {
-      state.controllers.delete(requestKey);
+      const controllers = new Map(state.controllers);
+      controllers.delete(requestKey);
+      updateState({ controllers });
     }
   }
 }
@@ -222,7 +229,7 @@ function renderScenarioRail() {
 async function loadScenarios(selectFirst = true) {
   try {
     const data = await apiFetch(API_ROOT, {}, "scenario-list");
-    state.scenarios = scenarioCollection(data);
+    updateState({ scenarios: Object.freeze(scenarioCollection(data)) });
     renderScenarioRail();
     if (selectFirst && state.scenarios.length && state.activeScenarioId === null) {
       await selectScenario(state.scenarios[0].id);
@@ -268,10 +275,12 @@ async function selectScenario(id) {
   try {
     const data = await apiFetch(`${API_ROOT}/${encodeURIComponent(id)}`, {}, "scenario-detail");
     const bundle = scenarioBundle(data);
-    state.activeScenarioId = bundle.scenario.id;
-    state.activeScenario = bundle.scenario;
-    state.activeRun = bundle.run;
-    state.dirty = false;
+    updateState({
+      activeScenarioId: bundle.scenario.id,
+      activeScenario: bundle.scenario,
+      activeRun: bundle.run,
+      dirty: false,
+    });
     renderScenarioRail();
     setFormValues(bundle.scenario);
     renderSolution(bundle.scenario, bundle.run);
@@ -286,7 +295,7 @@ async function selectScenario(id) {
 
 function setStage(nextStage, focusHeading = true) {
   const stage = Math.min(5, Math.max(1, nextStage));
-  state.stage = stage;
+  updateState({ stage });
   document.querySelectorAll("[data-stage-panel]").forEach((panel) => {
     panel.hidden = Number(panel.dataset.stagePanel) !== stage;
   });
@@ -559,10 +568,12 @@ async function saveScenario(event) {
       body: JSON.stringify(payloadFromForm()),
     }, "scenario-save");
     const bundle = scenarioBundle(data);
-    state.activeScenario = bundle.scenario;
-    state.activeRun = bundle.run;
-    state.activeScenarioId = bundle.scenario.id;
-    state.dirty = false;
+    updateState({
+      activeScenario: bundle.scenario,
+      activeRun: bundle.run,
+      activeScenarioId: bundle.scenario.id,
+      dirty: false,
+    });
     renderSolution(bundle.scenario, bundle.run);
     await loadScenarios(false);
     setSaveState(`Saved · version ${bundle.scenario.version || 1}`);
@@ -586,10 +597,12 @@ function startNewScenario() {
   if (!canDiscardDraft()) {
     return;
   }
-  state.activeScenarioId = null;
-  state.activeScenario = null;
-  state.activeRun = null;
-  state.dirty = false;
+  updateState({
+    activeScenarioId: null,
+    activeScenario: null,
+    activeRun: null,
+    dirty: false,
+  });
   elements.form.reset();
   elements.form.elements.model_size_billion.value = "13";
   elements.form.elements.latency_target_ms.value = "800";
@@ -642,7 +655,7 @@ elements.previous.addEventListener("click", () => setStage(state.stage - 1));
 elements.next.addEventListener("click", () => navigateToStage(state.stage + 1));
 elements.form.addEventListener("submit", saveScenario);
 elements.form.addEventListener("input", () => {
-  state.dirty = true;
+  updateState({ dirty: true });
   setSaveState("Unsaved changes");
 });
 document.querySelector("#refresh-summary").addEventListener("click", renderRequirementSummary);

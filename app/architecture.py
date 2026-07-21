@@ -395,13 +395,9 @@ def _build_edges(include_retrieval: bool) -> tuple[ArchitectureEdge, ...]:
     return (*flow_edges, *control_edges)
 
 
-def build_blueprint(assessment: Mapping[str, object]) -> ArchitectureBlueprint:
-    """Create a deterministic allowlisted blueprint from an engine assessment mapping.
-
-    Unknown recommendation layers are ignored. Assessment values may customize controlled labels,
-    but they cannot add SVG primitives, node kinds, identifiers, relationships, or coordinates.
-    """
-
+def _blueprint_inputs(
+    assessment: Mapping[str, object],
+) -> tuple[Mapping[str, object], Mapping[str, object], Sequence[object]]:
     if not isinstance(assessment, Mapping):
         raise ValueError("assessment must be a mapping")
     requirements_value = assessment.get("requirements", {})
@@ -415,7 +411,17 @@ def build_blueprint(assessment: Mapping[str, object]) -> ArchitectureBlueprint:
         recommendations_value, Sequence
     ):
         raise ValueError("recommendations must be a sequence")
+    return requirements_value, architecture_value, recommendations_value
 
+
+def build_blueprint(assessment: Mapping[str, object]) -> ArchitectureBlueprint:
+    """Create a deterministic allowlisted blueprint from an engine assessment mapping.
+
+    Unknown recommendation layers are ignored. Assessment values may customize controlled labels,
+    but they cannot add SVG primitives, node kinds, identifiers, relationships, or coordinates.
+    """
+
+    requirements_value, architecture_value, recommendations_value = _blueprint_inputs(assessment)
     components = _extract_components(architecture_value, recommendations_value)
     has_retrieval = _include_retrieval(requirements_value, architecture_value, components)
     nodes = tuple(

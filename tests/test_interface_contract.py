@@ -1,5 +1,6 @@
 """Contract tests for the guided configurator interface."""
 
+import re
 from html import unescape
 from pathlib import Path
 
@@ -111,12 +112,20 @@ def test_scenario_switching_preserves_update_target_and_unsaved_drafts() -> None
         script.index("async function selectScenario") : script.index("function setStage")
     ]
 
-    assert selection.index("await apiFetch") < selection.index(
-        "state.activeScenarioId = bundle.scenario.id"
-    )
+    assert selection.index("await apiFetch") < selection.index("updateState({")
+    assert "activeScenarioId: bundle.scenario.id" in selection
     assert "state.dirty" in script
     assert "window.confirm" in script
     assert "Discard unsaved changes" in script
+
+
+def test_interface_state_updates_use_immutable_replacement() -> None:
+    script = _read(SCRIPT)
+
+    assert "let state = Object.freeze" in script
+    assert "state = Object.freeze({ ...state, ...patch })" in script
+    for field in ("activeScenarioId", "activeScenario", "activeRun", "dirty"):
+        assert re.search(rf"state\.{field}\s*=\s*[^=]", script) is None
 
 
 def test_compact_stage_navigation_retains_accessible_names() -> None:
