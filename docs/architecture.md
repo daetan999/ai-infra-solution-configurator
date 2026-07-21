@@ -41,4 +41,3 @@ flowchart LR
 The repository is suitable for a single-user local workshop demonstrator. A shared deployment would
 still require authentication, authorization, tenant isolation, TLS termination, request limits,
 centralized audit retention, and an approved data-classification process.
-

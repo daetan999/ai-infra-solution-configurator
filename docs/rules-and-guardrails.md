@@ -38,4 +38,3 @@ supplier quotes into a public demonstration.
 Recommendations are initial solution hypotheses for discovery and workshops. They require workload
 benchmarks, security and identity review, recovery testing, network and storage validation, operational
 readiness review, and formal architecture approval before any commitment.
-
