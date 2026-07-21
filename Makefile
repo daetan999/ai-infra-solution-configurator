@@ -1,4 +1,4 @@
-.PHONY: install dev test coverage lint
+.PHONY: install dev test coverage lint e2e
 
 install:
 	python -m pip install -e '.[dev]'
@@ -15,3 +15,5 @@ coverage:
 lint:
 	ruff check app tests
 
+e2e:
+	npm run test:e2e

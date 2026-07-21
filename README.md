@@ -85,7 +85,7 @@ Confidence measures input completeness—not solution correctness. See
 
 ## Quick start
 
-Requirements: Python 3.12+.
+Requirements: Python 3.12+. Browser verification also uses Node.js 24.
 
 ```bash
 python -m venv .venv
@@ -121,7 +121,7 @@ Responses use `{success, data, error, meta}` envelopes. Downloads return their n
 | `GET` | `/api/scenarios/{id}/runs` | List immutable assessment runs |
 | `GET` | `/api/runs/{run_id}` | Read one historical run |
 | `GET` | `/api/scenarios/{id}/diagram.svg` | Download the latest architecture |
-| `GET` | `/api/scenarios/{id}/export?format=json\|markdown` | Export the latest solution brief |
+| `GET` | `/api/scenarios/{id}/export?format=json\|markdown\|svg` | Export the latest solution brief or diagram |
 
 Interactive API documentation is available at `/api/docs` while the application is running.
 
@@ -132,14 +132,18 @@ make lint
 make test
 make coverage
 node --check static/app.js
+npm ci
+npx playwright install chromium
+make e2e
 docker build -t solution-configurator .
 ```
 
 The test suite covers schema boundaries, rule precedence, every recommendation area, confidence,
 diagram safety and determinism, snapshot persistence, API errors, exports, fictional demos, the main
 workflow, and the rendered-interface contract. CI enforces linting, browser-script syntax, an 80%
-branch-coverage floor, and a clean-checkout container build. The application is deployed from its
-repository checkout or container image; it is not published as a standalone Python wheel.
+branch-coverage floor, two Playwright browser journeys, and a clean-checkout container build. The
+application is deployed from its repository checkout or container image; it is not published as a
+standalone Python wheel.
 
 ## Architecture and boundaries
 
@@ -184,7 +188,8 @@ app/
   architecture.py  Allowlisted blueprint construction
   diagram.py       Accessible inert SVG renderer
   exports.py       JSON and Markdown solution briefs
-  main.py          FastAPI composition and routes
+  routes.py        HTTP contracts and focused route registration
+  main.py          FastAPI application composition
 templates/         Guided workspace
 static/            Browser behavior and visual system
 tests/             Unit, API, integration, safety, and interface contracts

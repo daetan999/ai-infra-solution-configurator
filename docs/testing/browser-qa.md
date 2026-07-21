@@ -2,6 +2,10 @@
 
 Verified on 21 July 2026 with headless Google Chrome against a fresh SQLite database and the three synthetic demo scenarios.
 
+The repeatable critical-path and mobile checks live in `tests/e2e/configurator.spec.mjs` and run in
+GitHub Actions. The extended local pass below additionally exercises failure injection, draft
+protection, keyboard behavior, and portfolio screenshot capture.
+
 ## Covered journey
 
 - Loaded the discovery workspace and confirmed the live rules-engine health state.
