@@ -28,3 +28,14 @@ def test_demo_seed_is_idempotent() -> None:
     assert seed_demo_scenarios(repo) == 0
     assert len(repo.list_scenarios()) == 3
     assert len(repo.list_runs(repo.list_scenarios()[0]["id"])) == 1
+
+
+def test_northstar_demo_matches_the_portfolio_case_contract() -> None:
+    northstar = next(demo for demo in demo_scenarios() if "Northstar" in demo.name)
+
+    assert northstar.name == "Fictional Northstar Private RAG"
+    assert northstar.model_size_billion == 70
+    assert northstar.latency_target_ms == 900
+    assert northstar.throughput_target_rps == 45
+    assert northstar.data_volume_tb == 18
+    assert northstar.annual_growth_pct == 35
