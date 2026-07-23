@@ -1,0 +1,109 @@
+@import url("https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,500;0,600;0,700;1,600&family=Fira+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap");
+
+/* Architectural blueprint: hierarchy comes from a disciplined grid, not teal glow. */
+:root {
+  --ink: #f2eadb;
+  --muted: #aebccc;
+  --soft: #d9e1df;
+  --canvas: #102132;
+  --panel: #142a3d;
+  --panel-raised: #1b344a;
+  --line: #405a70;
+  --line-bright: #6e8392;
+  --cyan: #d3a33e;
+  --cyan-dim: #4a3d22;
+  --amber: #e3c06c;
+  --red: #d77870;
+  --violet: #c38a78;
+  --blue: #8bb3c8;
+  --radius: 3px;
+  --radius-sm: 2px;
+  --shadow: 0 18px 46px rgb(5 18 28 / 30%);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: "Fira Sans", "Trebuchet MS", sans-serif;
+}
+
+body {
+  background:
+    linear-gradient(rgb(139 179 200 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(139 179 200 / 5%) 1px, transparent 1px),
+    linear-gradient(180deg, #18354d 0%, var(--canvas) 36rem);
+  background-size: 36px 36px, 36px 36px, auto;
+}
+
+h1,
+h2,
+h3,
+h4,
+.brand strong {
+  font-family: Bitter, Georgia, serif;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.eyebrow,
+.brand small,
+.engine-status,
+.count-pill,
+.deterministic-tag,
+.stage-tab span,
+.field-readout span,
+.unit,
+.operating-map span,
+.requirement-summary dt {
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+.topbar { border-color: #536c7c; background: rgb(16 33 50 / 92%); }
+.scenario-panel { background: rgb(18 42 61 / 72%); }
+.brand-mark {
+  border-radius: 0;
+  border-color: #8b9fad;
+  background: #213f57;
+  box-shadow: none;
+}
+
+.button,
+.field input,
+.field select,
+.field textarea,
+.stage-tab,
+.mode-switcher,
+.choice-card,
+.review-card,
+.operating-map,
+.requirement-summary {
+  border-radius: 3px;
+}
+
+.button-primary,
+.button-primary:hover:not(:disabled) {
+  border-color: var(--cyan);
+  background: var(--cyan);
+  color: #1a160c;
+  box-shadow: none;
+}
+
+.button-quiet { background: #1b344a; }
+.button-quiet:hover:not(:disabled) { border-color: #91a5ad; background: #28485f; }
+.engine-status i { box-shadow: none; }
+
+.operating-map div,
+.requirement-summary div { background: #193248; }
+.review-card { border-color: #5b715f; background: rgb(67 82 51 / 28%); }
+.signal-strip { background: rgb(211 163 62 / 11%); }
+
+.stage-tab.is-active,
+.mode-tab.is-active { border-color: #d3a33e; }
+.field input,
+.field select,
+.field textarea { background: #11283a; }
+.field input:focus,
+.field select:focus,
+.field textarea:focus { box-shadow: 0 0 0 3px rgb(211 163 62 / 20%); }

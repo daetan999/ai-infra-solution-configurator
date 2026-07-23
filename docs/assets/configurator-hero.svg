@@ -6,6 +6,28 @@
     <linearGradient id="mint" x1="0" x2="1"><stop stop-color="#4fe1c1"/><stop offset="1" stop-color="#6ca8ff"/></linearGradient>
     <filter id="glow"><feGaussianBlur stdDeviation="16"/></filter>
     <pattern id="grid" width="36" height="36" patternUnits="userSpaceOnUse"><path d="M36 0H0v36" fill="none" stroke="#1f2a36" stroke-width="1"/></pattern>
+    <style>
+      /* Architectural-blueprint palette used by the live configurator. */
+      text { font-family: Bitter, Georgia, serif !important; }
+      text[font-family="Arial, sans-serif"] { font-family: "Fira Sans", Arial, sans-serif !important; }
+      text[letter-spacing] { font-family: "IBM Plex Mono", "Courier New", monospace !important; }
+      stop[stop-color="#0c1118"] { stop-color: #18354d !important; }
+      stop[stop-color="#070a0f"] { stop-color: #102132 !important; }
+      stop[stop-color="#4fe1c1"] { stop-color: #d3a33e !important; }
+      stop[stop-color="#6ca8ff"] { stop-color: #8bb3c8 !important; }
+      [fill="#0e141d"], [fill="#111923"] { fill: #142a3d !important; }
+      [fill="#0b1017"], [fill="#101720"], [fill="#0a0f15"], [fill="#0a1016"], [fill="#090e14"] { fill: #11283a !important; }
+      [fill="#0f171f"] { fill: #193248 !important; }
+      [fill="#16322e"], [fill="#10251f"] { fill: #314438 !important; }
+      [fill="#f5f7fb"] { fill: #f2eadb !important; }
+      [fill="#c8d0dc"], [fill="#aeb9c7"], [fill="#9cadbe"], [fill="#92a1b3"], [fill="#8fa0b2"], [fill="#76879a"], [fill="#6e8195"] { fill: #aebccc !important; }
+      [fill="#4fe1c1"] { fill: #d3a33e !important; }
+      [fill="#6ca8ff"] { fill: #8bb3c8 !important; }
+      [fill="#9e91ff"] { fill: #c38a78 !important; }
+      [fill="#d8fff6"] { fill: #f2eadb !important; }
+      [stroke="#1f2a36"], [stroke="#2b3542"], [stroke="#27323f"], [stroke="#344150"] { stroke: #405a70 !important; }
+      [stroke="#3b665e"], [stroke="#34635b"], [stroke="#31554e"] { stroke: #7d7046 !important; }
+    </style>
   </defs>
   <rect width="1600" height="900" fill="url(#bg)"/>
   <rect width="1600" height="900" fill="url(#grid)" opacity=".34"/>

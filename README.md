@@ -22,6 +22,14 @@ recommendations; every output retains its trigger, rationale, alternative, risk,
 > Recommendations are initial solution hypotheses. They support discovery and workshops, require
 > technical validation, and do not replace a formal architecture review.
 
+## Visual system
+
+The configurator uses an **architectural blueprint** language: navy working planes, paper-blue
+structure, and ochre emphasis distinguish requirement capture from the resulting hypothesis. Bitter
+sets the architectural hierarchy, Fira Sans carries the workshop content, and IBM Plex Mono marks
+rules, stages, and measurements. The disciplined grid and compact corners make the workflow feel
+like a design review surface—not an interchangeable AI chat interface.
+
 ## Product evidence
 
 ![Guided configuration workspace](docs/assets/configurator-workspace.png)
