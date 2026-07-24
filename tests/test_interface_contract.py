@@ -139,9 +139,19 @@ def test_compact_stage_navigation_retains_accessible_names() -> None:
 
 
 def test_documentation_assets_are_original_accessible_svg() -> None:
-    for name in ("configurator-hero.svg", "configuration-workflow.svg", "rules-engine.svg"):
+    for name in ("configuration-workflow.svg", "rules-engine.svg"):
         svg = _read(ROOT / "docs" / "assets" / name)
         assert svg.startswith("<svg")
         assert "<title" in svg
         assert "<desc" in svg
         assert 'role="img"' in svg
+
+    for name, expected_size in (
+        ("configurator-workspace.png", (1440, 1050)),
+        ("configurator-architecture.png", (1440, 1050)),
+        ("configurator-rule-trace.png", (1440, 800)),
+    ):
+        png = (ROOT / "docs" / "assets" / name).read_bytes()
+        assert png.startswith(b"\x89PNG\r\n\x1a\n")
+        assert int.from_bytes(png[16:20], "big") == expected_size[0]
+        assert int.from_bytes(png[20:24], "big") == expected_size[1]
