@@ -2,6 +2,12 @@
 
 [![CI](https://github.com/daetan999/ai-infra-solution-configurator/actions/workflows/ci.yml/badge.svg)](https://github.com/daetan999/ai-infra-solution-configurator/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-334b5f)](LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-1b344a)](pyproject.toml)
+[![FastAPI](https://img.shields.io/badge/fastapi-0.115%2B-1b344a)](pyproject.toml)
+[![Coverage floor 80%](https://img.shields.io/badge/coverage%20floor-80%25-1b344a)](pyproject.toml)
+[![Lint: Ruff](https://img.shields.io/badge/lint-ruff-1b344a)](pyproject.toml)
+[![E2E: Playwright](https://img.shields.io/badge/e2e-playwright-1b344a)](playwright.config.mjs)
+[![Container](https://img.shields.io/badge/container-docker-1b344a)](Dockerfile)
 
 Turn discovery requirements into an explainable infrastructure hypothesis, a reviewable rule trace,
 and an exportable architecture diagram.
