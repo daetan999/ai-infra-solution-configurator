@@ -61,35 +61,12 @@ Generated examples:
 *The trace makes the selected rule and its trade-offs visible. Confidence measures input
 completeness; it does not certify solution correctness or production readiness.*
 
-## Visual system
-
-The interface uses an architectural-blueprint language instead of a generic AI dashboard:
-
-| Element | Treatment |
-|---|---|
-| Working plane | Blueprint navy with a restrained drafting grid |
-| Structure | Paper blue lines, panels, and generated diagram surfaces |
-| Decision emphasis | Ochre for active stages, rules, and calls to action |
-| Display type | Bitter |
-| Interface type | Fira Sans |
-| Rule and measurement type | IBM Plex Mono |
-
-Square corners, compact labels, measured linework, and a clear requirements-to-hypothesis boundary
-make the screen read like a design review surface.
 
 ## Architecture
 
 The codebase is a local-first FastAPI modular monolith with three explicit seams:
 
-```text
-validated requirements
-        │
-        ▼
-versioned rules ──► immutable assessment run ──► JSON / Markdown brief
-                                      │
-                                      ▼
-                         allowlisted blueprint ──► inert SVG
-```
+![Architecture: validated requirements through a versioned rule catalog into an immutable assessment run, producing a brief and an allowlisted blueprint rendered as inert SVG](docs/assets/architecture.svg)
 
 - **HTTP boundary:** Pydantic schemas validate bounded values and contradictory inputs.
 - **Decision layer:** versioned rules resolve exclusive candidates by priority and stable rule ID.
