@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="1060" height="480" role="img" aria-label="Architecture: validated requirements through a versioned rule catalog into an immutable assessment run, producing a JSON or Markdown brief and an allowlisted blueprint rendered as inert SVG">
+  <title>Architecture: validated requirements through a versioned rule catalog into an immutable assessment run, producing a JSON or Markdown brief and an allowlisted blueprint rendered as inert SVG</title>
+  <style>
+  text { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; }
+  .node   { fill: none; stroke: #16181d; stroke-width: 1.25; }
+  .accent { fill: #f2f2f3; stroke: #16181d; stroke-width: 1.25; }
+  .store  { fill: none; stroke: #16181d; stroke-width: 1.25; stroke-dasharray: 3 3; }
+  .title  { font-size: 15px; font-weight: 600; fill: #16181d; }
+  .sub    { font-size: 12px; fill: #5b6270; }
+  .kick   { font-size: 10px; font-weight: 600; letter-spacing: .14em; fill: #5b6270; }
+  .note   { font-family: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; font-size: 11px; fill: #5b6270; }
+  .edge   { fill: none; stroke: #16181d; stroke-width: 1.25; }
+  .edge-o { fill: none; stroke: #5b6270; stroke-width: 1.25; stroke-dasharray: 4 4; }
+  .rule   { stroke: #16181d; stroke-width: 1; opacity: .18; }
+  .head   { fill: #16181d; }
+  .head-o { fill: #5b6270; }
+  @media (prefers-color-scheme: dark) {
+    .node, .store { stroke: #e6e8eb; }
+    .accent { fill: #1b2027; stroke: #e6e8eb; }
+    .title { fill: #e6e8eb; }
+    .sub, .kick, .note { fill: #a3abb6; }
+    .edge { stroke: #e6e8eb; }
+    .edge-o { stroke: #a3abb6; }
+    .rule { stroke: #e6e8eb; }
+    .head { fill: #e6e8eb; }
+    .head-o { fill: #a3abb6; }
+  }
+</style>
+  <text class="kick" x="40" y="38">SOLUTION CONFIGURATOR</text>
+  <text class="title" x="40" y="62">Requirements to hypothesis, with seams made explicit</text>
+  <line class="rule" x1="40" y1="82" x2="1020" y2="82"/>
+  <rect class="node" x="40" y="192" width="190" height="76" rx="2"/>
+  <text class="title" x="56" y="218.5">Validated</text>
+  <text class="title" x="56" y="236.5">requirements</text>
+  <text class="sub" x="56" y="255.5">Pydantic schemas</text>
+  <rect class="accent" x="280" y="192" width="190" height="76" rx="2"/>
+  <text class="title" x="296" y="218.5">Versioned rule</text>
+  <text class="title" x="296" y="236.5">catalog</text>
+  <text class="sub" x="296" y="255.5">Stable priority order</text>
+  <rect class="node" x="520" y="192" width="200" height="76" rx="2"/>
+  <text class="title" x="536" y="218.5">Immutable assessment</text>
+  <text class="title" x="536" y="236.5">run</text>
+  <text class="sub" x="536" y="255.5">SQLite snapshot</text>
+  <rect class="node" x="780" y="110" width="220" height="60" rx="2"/>
+  <text class="title" x="796" y="145.0">JSON / Markdown brief</text>
+  <rect class="node" x="780" y="290" width="220" height="60" rx="2"/>
+  <text class="title" x="796" y="325.0">Allowlisted blueprint</text>
+  <rect class="store" x="780" y="380" width="220" height="60" rx="2"/>
+  <text class="title" x="796" y="415.0">Inert SVG</text>
+  <line class="edge" x1="230" y1="230" x2="271" y2="230"/>
+  <polygon class="head" points="271,225 280,230 271,235"/>
+  <line class="edge" x1="470" y1="230" x2="511" y2="230"/>
+  <polygon class="head" points="511,225 520,230 511,235"/>
+  <path class="edge" d="M 720 230 L 750.0 230 L 750.0 140 L 771 140"/>
+  <polygon class="head" points="771,135 780,140 771,145"/>
+  <path class="edge" d="M 720 230 L 750.0 230 L 750.0 320 L 771 320"/>
+  <polygon class="head" points="771,315 780,320 771,325"/>
+  <line class="edge" x1="890" y1="350" x2="890" y2="371"/>
+  <polygon class="head" points="885,371 890,380 895,371"/>
+  <text class="note" x="780" y="462" text-anchor="start">no scripts or remote assets</text>
+  <text class="note" x="40" y="440" text-anchor="start">Contradictory or out-of-range input is rejected at the HTTP boundary, before any rule runs.</text>
+</svg>
