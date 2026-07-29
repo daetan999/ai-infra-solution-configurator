@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 480" width="1060" height="480" role="img" aria-label="Architecture: validated requirements through a versioned rule catalog into an immutable assessment run, producing a JSON or Markdown brief and an allowlisted blueprint rendered as inert SVG">
   <title>Architecture: validated requirements through a versioned rule catalog into an immutable assessment run, producing a JSON or Markdown brief and an allowlisted blueprint rendered as inert SVG</title>
+  <desc>Validated requirements pass through versioned deterministic rules into an immutable assessment that generates a structured brief and a safe allowlisted architecture diagram.</desc>
   <style>
   text { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; }
   .node   { fill: none; stroke: #16181d; stroke-width: 1.25; }

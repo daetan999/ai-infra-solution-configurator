@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 590" width="1240" height="590" role="img" aria-label="Discovery to validation: five requirement stages feed deterministic rule synthesis, producing a solution hypothesis, a validation move, and a formal engagement path">
   <title>Discovery to validation: five requirement stages feed deterministic rule synthesis, producing a solution hypothesis, a validation move, and a formal engagement path</title>
+  <desc>Five structured discovery stages feed a deterministic rules engine, which produces a solution hypothesis, validation plan, and review handoff.</desc>
   <style>
   text { font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; }
   .node   { fill: none; stroke: #16181d; stroke-width: 1.25; }
